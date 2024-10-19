@@ -24,7 +24,7 @@ export default function Home() {
         <h1 className="text-center font-karla text-[27px] font-semibold">New Arrivals</h1>
 
      <NewArrivals/>
-     <Link href={`/shirts`}>
+     <Link href={`/new-arrival`}>
                     <span className="mt-4 inline-block bg-black text-white py-2 px-4 rounded hover:bg-blue-600">
                         View Details
                     </span>

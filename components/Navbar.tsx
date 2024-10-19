@@ -34,7 +34,7 @@ const Navbar = () => {
           <Link href="/">
             <span
               className={`text-[15px] font-karla font-[700] ${
-                isActive('/') ? 'text-blue-500' : 'text-[#2b2b2b]'
+                isActive('/new-arrival') ? 'text-blue-500' : 'text-[#2b2b2b]'
               }`}
             >
               New Arrivals
