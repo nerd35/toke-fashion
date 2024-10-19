@@ -30,7 +30,10 @@ export default function Home() {
                     </span>
                 </Link>
      </div>
+     <div className="py-12 md:px-6 mb-2 text-center">
+
      <TShirtCategory/>
+     </div>
     </div>
   );
 }
