@@ -26,7 +26,7 @@ const Navbar = () => {
       <div className="flex justify-between items-center  px-6 md:px-16">
         {/* Logo */}
         <Link href="/">
-          <Image src="/images/logo-toke1.jpg" alt='logo' width={84} height={64} />
+          <Image src="/cloths/toke-logo1.png" alt='logo' width={250} height={64} />
         </Link>
         
         {/* Desktop Menu */}
@@ -112,7 +112,7 @@ const Navbar = () => {
       >
         <div className="flex flex-col p-6 space-y-4">
         <Link href="/">
-          <Image src="/images/logo-toke1.jpg" alt='logo' width={154} height={64} />
+          <Image src="/cloths/toke-logo1.png" alt='logo' width={154} height={64} />
         </Link>
           <Link href="/">
             <span

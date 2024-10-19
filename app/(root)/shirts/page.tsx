@@ -7,7 +7,7 @@ const TShirtCategory = () => {
   const tShirtItems = EliteClothesLanding.filter(item => item.category === 't-shirt');
 
   return (
-    <div className="p-6 mt-24">
+    <div className="p-6 mt-24 mb-12">
       <h2 className="text-2xl font-bold mb-4 text-center font-karla">T-Shirts</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto">
         {tShirtItems.length > 0 ? (
