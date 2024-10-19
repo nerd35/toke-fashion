@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation'; // Use usePathname instead of useRouter
-import { FaHome, FaShoppingCart, FaUserAlt, FaSearch, FaBars, FaTimes } from 'react-icons/fa';
+import { FaHome, FaShoppingCart, FaUserAlt, FaSearch, FaBars, FaTimes, FaWhatsapp } from 'react-icons/fa';
 import Image from 'next/image';
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const pathname = usePathname(); // Get the current path
+  const [showTooltip, setShowTooltip] = useState(false);
 
   // Function to toggle drawer visibility
   const toggleDrawer = () => {
@@ -26,9 +27,9 @@ const Navbar = () => {
       <div className="flex justify-between items-center  px-6 md:px-16">
         {/* Logo */}
         <Link href="/">
-          <Image src="/cloths/toke-logo1.png" alt='logo' width={250} height={64} />
+          <Image src="/cloths/toke-logo1.png" alt="logo" width={250} height={64} />
         </Link>
-        
+
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
           <Link href="/">
@@ -69,34 +70,34 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className='flex items-center gap-3'>
+        <div className="flex items-center gap-3">
           <FaSearch className="text-sm cursor-pointer" />
-          <div className='hidden md:flex items-cener gap-3'>
-          <Link href="/account">
-          <span
-            className={`flex gap-2 font-karla items-center text-sm ${
-              isActive('/account') ? 'text-blue-500' : 'text-gray-500'
-            }`}
-          >
-            Account
-            <FaUserAlt className="text-md" />
-          </span>
-        </Link>
-          <Link href="/cart">
-          <span
-            className={`flex  gap-1 font-karla items-center text-sm ${
-              isActive('/cart') ? 'text-blue-500' : 'text-gray-700'
-            }`}
-          >
-            Cart
-            <FaShoppingCart className="text-md" />
-          </span>
-        </Link>
+          <div className="hidden md:flex items-center gap-3">
+            <Link href="/account">
+              <span
+                className={`flex gap-2 font-karla items-center text-sm ${
+                  isActive('/account') ? 'text-blue-500' : 'text-gray-500'
+                }`}
+              >
+                Account
+                <FaUserAlt className="text-md" />
+              </span>
+            </Link>
+            <Link href="/cart">
+              <span
+                className={`flex  gap-1 font-karla items-center text-sm ${
+                  isActive('/cart') ? 'text-blue-500' : 'text-gray-700'
+                }`}
+              >
+                Cart
+                <FaShoppingCart className="text-md" />
+              </span>
+            </Link>
           </div>
 
           <div className="md:hidden" onClick={toggleDrawer}>
             {isDrawerOpen ? (
-              <FaTimes className="text-lg2xl cursor-pointer" />
+              <FaTimes className="text-lg cursor-pointer" />
             ) : (
               <FaBars className="text-lg cursor-pointer" />
             )}
@@ -111,9 +112,9 @@ const Navbar = () => {
         }`}
       >
         <div className="flex flex-col p-6 space-y-4">
-        <Link href="/">
-          <Image src="/cloths/toke-logo1.png" alt='logo' width={154} height={64} />
-        </Link>
+          <Link href="/">
+            <Image src="/cloths/toke-logo1.png" alt="logo" width={154} height={64} />
+          </Link>
           <Link href="/">
             <span
               onClick={toggleDrawer} // Close the drawer when a link is clicked
@@ -200,6 +201,26 @@ const Navbar = () => {
           </span>
         </Link>
       </nav>
+
+      {/* WhatsApp Button */}
+      <Link
+        href="https://wa.me/message/SUPMHAZ6QTFZL1" // Replace with your WhatsApp number
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-24 right-4 md:bottom-8 md:right-8 bg-black p-4 rounded-full text-white shadow-lg z-50 flex items-center justify-center"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
+        <FaWhatsapp className="text-2xl" />
+        {/* Tooltip for Web */}
+        {/* <div
+          className={`${
+            showTooltip &&'hidden'
+          } absolute -top-10 left-0 bg-black text-white text-xs px-3 py-1 rounded-md md:block`}
+        >
+          Chat with us
+        </div> */}
+      </Link>
     </header>
   );
 };
