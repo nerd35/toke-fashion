@@ -9,7 +9,6 @@ import Image from 'next/image';
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const pathname = usePathname(); // Get the current path
-  const [showTooltip, setShowTooltip] = useState(false);
 
   // Function to toggle drawer visibility
   const toggleDrawer = () => {
@@ -208,8 +207,7 @@ const Navbar = () => {
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-24 right-4 md:bottom-8 md:right-8 bg-black p-4 rounded-full text-white shadow-lg z-50 flex items-center justify-center"
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
+       
       >
         <FaWhatsapp className="text-2xl" />
         {/* Tooltip for Web */}
