@@ -6,11 +6,7 @@ import { usePathname } from 'next/navigation';
 import { FaHome, FaShoppingCart, FaUserAlt, FaSearch, FaBars, FaTimes, FaWhatsapp } from 'react-icons/fa';
 import Image from 'next/image';
 
-// Conversion rates (hardcoded)
-const conversionRates = {
-  USD: 1,
-  NGN: 775, // Example conversion rate (1 USD = 775 NGN)
-};
+
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
