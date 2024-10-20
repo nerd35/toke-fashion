@@ -1,12 +1,19 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { EliteClothesLanding } from '@/app/(root)/data';
 import Image from 'next/image';
 import React from 'react';
 
+// Conversion rates (hardcoded for now, but can be dynamic)
+const conversionRates = {
+  USD: 1,
+  NGN: 1630, // Example rate
+};
+
 const FelaTee = () => {
   const [scrollIndex, setScrollIndex] = useState(0);
+  const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
   const itemsToShow = 4;
 
   const handleScroll = (direction: string) => {
@@ -20,6 +27,34 @@ const FelaTee = () => {
     });
   };
 
+  // Convert price based on the selected currency
+  const convertPrice = (priceInUSD: number) => {
+    return (priceInUSD * conversionRates[currency]).toFixed(2); // Convert and round to 2 decimals
+  };
+
+  // Fetch preferred currency from localStorage on component mount
+  useEffect(() => {
+    const savedCurrency = localStorage.getItem('preferredCurrency') as 'USD' | 'NGN';
+    if (savedCurrency) {
+      setCurrency(savedCurrency);
+    }
+
+    // Add an event listener to detect changes to localStorage
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'preferredCurrency' && event.newValue) {
+        setCurrency(event.newValue as 'USD' | 'NGN');
+      }
+    };
+
+    // Listen for changes in localStorage
+    window.addEventListener('storage', handleStorageChange);
+
+    // Cleanup the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
   return (
     <div className="relative">
       <div className="overflow-x-hidden flex">
@@ -29,8 +64,8 @@ const FelaTee = () => {
         >
           {EliteClothesLanding?.map((item) => (
             item.discount > 0 && (
-              <div key={item.id} className="flex-shrink-0  px-6 border-gray-50 rounded-md w-64 h-auto relative">
-                <div className="relative w-full h-72"> {/* Set a fixed height for the image container */}
+              <div key={item.id} className="flex-shrink-0 px-6 border-gray-50 rounded-md w-64 h-auto relative">
+                <div className="relative w-full h-72">
                   <Image
                     src={item.img}
                     alt={item.name}
@@ -43,7 +78,7 @@ const FelaTee = () => {
                   </span>
                 </div>
                 <p className="text-center text-[15px] font-karla text-[#2b2b2b]">{item.name}</p>
-                <p className='text-red-300 font-karla text-center'>${item.price}</p>
+                <p className='text-red-500 font-bold font-karla text-center'>{currency === 'USD' ? '$' : '₦'}{convertPrice(item.price)}</p>
               </div>
             )
           ))}

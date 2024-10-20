@@ -10,11 +10,11 @@ const conversionRates = {
     NGN: 1630, // Example rate
 };
 
-const TShirtCategory = () => {
+const Pants = () => {
     const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
 
     // Filter items that are in the "t-shirt" category
-    const tShirtItems = EliteClothesLanding.filter(item => item.category === 't-shirt').slice(0, 4);
+    const tShirtItems = EliteClothesLanding.filter(item => item.category === 'pant').slice(0, 4);
 
     // Convert price based on the selected currency
     const convertPrice = (priceInUSD: number) => {
@@ -45,8 +45,8 @@ const TShirtCategory = () => {
     }, []);
 
     return (
-        <div className="p-6">
-            <h2 className="text-2xl font-bold mb-4 text-center font-karla">T-Shirts</h2>
+        <div className="p-6 mb-12">
+            <h2 className="text-2xl font-bold mb-4 text-center font-karla">Pants</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mx-auto gap-6">
                 {tShirtItems.length > 0 ? (
                     tShirtItems.map(item => (
@@ -61,7 +61,7 @@ const TShirtCategory = () => {
                 )}
             </div>
             <div className="text-center">
-                <Link href={`/shirts`}>
+                <Link href={`/pants`}>
                     <span className="mt-4 inline-block bg-black text-white py-2 px-4 rounded hover:bg-blue-600">
                         View Details
                     </span>
@@ -71,4 +71,4 @@ const TShirtCategory = () => {
     );
 };
 
-export default TShirtCategory;
+export default Pants;

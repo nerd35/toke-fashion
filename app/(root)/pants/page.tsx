@@ -10,8 +10,11 @@ const conversionRates = {
   NGN: 1630, // Example rate
 };
 
-const Shop = () => {
+const Pants = () => {
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
+
+  // Filter items that are in the "t-shirt" category
+  const tShirtItems = EliteClothesLanding.filter(item => item.category === 'pant');
 
   // Convert price based on the selected currency
   const convertPrice = (priceInUSD: number) => {
@@ -43,10 +46,10 @@ const Shop = () => {
 
   return (
     <div className="p-6 mt-24 mb-12">
-      <h2 className="text-2xl font-bold mb-4 text-center font-karla">Shop All Items</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto">
-        {EliteClothesLanding.length > 0 ? (
-          EliteClothesLanding.map(item => (
+      <h2 className="text-2xl font-bold mb-4 text-center font-karla">Pants</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto">
+        {tShirtItems.length > 0 ? (
+          tShirtItems.map(item => (
             <div key={item.id} className="h-full justify-center mx-auto text-center p-4 ">
               <img src={item.img} alt={item.name} className="w-full h-54 object-cover rounded" />
               <h3 className="text-[18px] font-semibold mt-2">{item.name}</h3>
@@ -57,11 +60,11 @@ const Shop = () => {
             </div>
           ))
         ) : (
-          <p className="text-gray-500">No items available at the moment.</p>
+          <p className="text-gray-500">No t-shirts available at the moment.</p>
         )}
       </div>
     </div>
   );
 };
 
-export default Shop;
+export default Pants;
