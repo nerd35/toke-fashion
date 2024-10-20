@@ -29,6 +29,7 @@ const Navbar = () => {
       setCurrency(selectedCurrency);
       localStorage.setItem('preferredCurrency', selectedCurrency);
       setLoading(false); // Stop loading after the delay
+      window.location.reload();
     }, 500); // Simulate a 500ms delay for price update
   };
 
