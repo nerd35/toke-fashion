@@ -43,8 +43,12 @@ const Navbar = () => {
 
   // Check if user is logged in (you can adjust this condition based on your authentication logic)
   const isUserLoggedIn = () => {
-    const token = localStorage.getItem('token');
-    return !!token; // returns true if token exists
+    if (typeof window !== 'undefined') {
+      // Only runs on the client side
+      const token = localStorage.getItem('token');
+      return !!token; // returns true if token exists
+    }
+    return false; // On the server, we can't check localStorage, so assume not logged in
   };
 
   // Determine if user details exist (adjust based on your app's logic)
