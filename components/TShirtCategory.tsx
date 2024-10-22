@@ -87,7 +87,7 @@ const TShirtCategory = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mx-auto gap-6">
                 {randomTShirtItems.length > 0 ? (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    randomTShirtItems.map((item: any) => (
+                    randomTShirtItems.map((item: ProductData) => (
                         <div key={item._id} className="h-full justify-center mx-auto text-center p-4">
                            
                             <div className="relative bg-gray-100 w-full h-72">

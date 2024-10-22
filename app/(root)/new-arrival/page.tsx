@@ -39,7 +39,7 @@ const Shop = () => {
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const newItems = products?.filter((item: any) => item.newArrival === "Yes" || item.newArrival === true);
+  const newItems = products?.filter((item: ProductData) => item.newArrival === "Yes" || item.newArrival === true);
 
 
 
@@ -81,7 +81,7 @@ const Shop = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto">
         {newItems?.length > 0 ? (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          newItems?.map((item: any) => (
+          newItems?.map((item: ProductData) => (
             <div key={item?._id} className="h-full justify-center mx-auto text-center p-4 ">
               <div className="relative bg-gray-100 w-full h-72">
                 <img

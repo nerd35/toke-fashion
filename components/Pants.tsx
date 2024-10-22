@@ -78,7 +78,7 @@ const Pants = () => {
             <h2 className="text-2xl font-bold mb-4 text-center font-karla">Pants</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mx-auto gap-6">
                 {pantItems.length > 0 ? (
-                    pantItems.map((item: any) => (
+                    pantItems.map((item: ProductData) => (
                         <div key={item._id} className="h-full justify-center mx-auto text-center p-4">
                             <img src={urlFor(item?.img[0]?.asset).url()} alt={item.name} className="w-[300px] h-[375px] object-cover rounded" />
                             <Link href={`/product/${item.slug.current}`} className="text-lg font-semibold mt-2">

@@ -82,7 +82,7 @@ const Pants = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto">
         {tShirtItems.length > 0 ? (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          tShirtItems.map((item: any) => (
+          tShirtItems.map((item: ProductData) => (
             <div key={item._id} className="h-full justify-center mx-auto text-center p-4 ">
               <img src={urlFor(item?.img[0]?.asset).url()} alt={item.name} className="w-full h-54 object-cover rounded" />
               <Link href={`/product/${item.slug.current}`} className="text-[18px] font-semibold mt-2">{item.name}</Link>

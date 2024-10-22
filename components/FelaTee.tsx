@@ -99,7 +99,7 @@ const FelaTee = () => {
           style={{ transform: `translateX(-${scrollIndex * (100 / itemsToShow)}%)` }}
         >
          
-          {newItems?.map((item: any) => ( 
+          {newItems?.map((item: ProductData) => ( 
             item.hot === "Yes" && (
               <div key={item._id} className="flex-shrink-0 px-6 border-gray-50 rounded-md w-64 h-auto relative">
                 <div className="relative w-full h-72">

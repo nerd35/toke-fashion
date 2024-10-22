@@ -1,3 +1,4 @@
+import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
 export interface ProductData {
     category?: string;       // e.g., "t-shirt"
@@ -5,7 +6,9 @@ export interface ProductData {
     description: string;    // e.g., "Elite merchandise is a contemporary luxury Fashion brand..."
     discount: number;       // e.g., 0
     gender: string;         // e.g., "men"
-    img: Array<{ url: string; alt?: string }>; // Array of image objects with optional alt text
+    img: Array<{
+      asset: SanityImageSource; url: string; alt?: string 
+}>; // Array of image objects with optional alt text
     name: string;           // e.g., "Elitesmerch signature t-shirt (White)"
     price: number;          // e.g., 51.36
     size: string[];         // e.g., ['S', 'M', 'L', 'XL']

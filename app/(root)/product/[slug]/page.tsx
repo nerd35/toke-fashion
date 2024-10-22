@@ -13,14 +13,7 @@ const conversionRates = {
     USD: 1,
     NGN: 1830, // Example rate
 };
-interface CartItem {
-    _id: string;
-    name: string;
-    price: number;
-    quantity: number;
-    img: string;
-    description: string;
-  }
+
 
 export default function ProductPage({ params }: { params: { slug: string } }) {
     const [data, setData] = useState<ProductData | null>(null);

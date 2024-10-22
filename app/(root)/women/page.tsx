@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { EliteClothesLanding } from '@/app/(root)/data'; // Adjust the path as necessary
 import Link from 'next/link';
 import { ProductData } from '@/app/api/interface';
 import { getData } from '@/app/api/sanity';
@@ -15,7 +14,7 @@ const conversionRates = {
 
 const Pants = () => {
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
-  const [products, setProducts] = useState([]); // State to store fetched products
+  const [products, setProducts] = useState<ProductData[]>([]); // State to store fetched products
   const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
@@ -24,7 +23,7 @@ const Pants = () => {
         const data: ProductData = await getData();
         console.log('Fetched data:', data);
         if (Array.isArray(data)) {
-          setProducts(data as any);
+          setProducts(data);
           console.log('Products after fetching:', data);
         } else {
           console.warn('Expected an array for the products, received:', data);
@@ -43,7 +42,7 @@ const Pants = () => {
  
 
     // Filter items that are in the "t-shirt" category
-    const tShirtItems = products?.filter((item: any) => item.gender === 'unisex')
+    const tShirtItems = products?.filter((item: ProductData) => item.gender === 'unisex')
 
   // Convert price based on the selected currency
   const convertPrice = (priceInUSD: number) => {
@@ -82,7 +81,7 @@ const Pants = () => {
       <h2 className="text-2xl font-bold mb-4 text-center font-karla">Women</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto">
         {tShirtItems.length > 0 ? (
-          tShirtItems.map((item: any) => (
+          tShirtItems.map((item: ProductData) => (
             <div key={item._id} className="h-full justify-center mx-auto text-center p-4 ">
               <div className="relative bg-gray-100 w-full h-72">
                                 <img

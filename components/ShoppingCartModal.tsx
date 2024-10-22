@@ -81,7 +81,7 @@ function ShoppingCartModal() {
                         </div>
                     ) : (
                         <>
-                            {items.map((item: any) => (
+                            {items.map((item: ProductData) => (
                                 <div key={item._id} className="flex gap-4 py-4 border-b border-gray-200">
                                     <img src={item.img} alt={item.name} className="w-20 h-20 object-cover" />
                                     <div className="flex-1">

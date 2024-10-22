@@ -81,7 +81,7 @@ const TShirtCategory = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto">
         {tShirtItems.length > 0 ? (       
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          tShirtItems.map((item: any) => (
+          tShirtItems.map((item: ProductData) => (
             <div key={item._id} className="h-full justify-center mx-auto text-center p-4 ">
               <div className="relative bg-gray-100 w-full h-72">
                 <img
