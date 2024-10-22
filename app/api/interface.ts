@@ -1,6 +1,6 @@
 
 export interface ProductData {
-    category: string;       // e.g., "t-shirt"
+    category?: string;       // e.g., "t-shirt"
     color: string;          // e.g., "White"
     description: string;    // e.g., "Elite merchandise is a contemporary luxury Fashion brand..."
     discount: number;       // e.g., 0

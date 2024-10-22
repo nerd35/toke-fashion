@@ -2,7 +2,6 @@
 
 import { ProductData } from '@/app/api/interface';
 import { getDataBySlug } from '@/app/api/sanity';
-import { useCart } from '@/app/context/CartContext';
 import AddToCart from '@/components/AddToCart';
 // import Checkout from '@/components/Checkout'; 
 import ImageGallery from '@/components/ImageGallery';
@@ -14,6 +13,14 @@ const conversionRates = {
     USD: 1,
     NGN: 1830, // Example rate
 };
+interface CartItem {
+    _id: string;
+    name: string;
+    price: number;
+    quantity: number;
+    img: string;
+    description: string;
+  }
 
 export default function ProductPage({ params }: { params: { slug: string } }) {
     const [data, setData] = useState<ProductData | null>(null);
@@ -21,8 +28,9 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
     const [loading, setLoading] = useState(true); // Loading state
     const [isCartOpen, setIsCartOpen] = useState(false); 
-    const [cartProduct, setCartProduct] = useState<any[]>([])
-    const { addItem } = useCart();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [cartProduct, setCartProduct] = useState<CartItem[]>([]);
+  
 
     // Fetch product data on component mount
     useEffect(() => {
@@ -88,22 +96,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     if (!data) {
         return <div>No product data available</div>; // Handle cases where data might not be available
     }
-    const handleAddToCart = () => {
-        if (data) {
-            const productToAdd: any = {
-                id: data._id,
-                name: data.name,
-                price: data.price,
-                quantity,
-                image: data.img[0]?.url,
-                color: data.color,
-                size: data.size ? data.size[0] : null,
-            };
-            setCartProduct([productToAdd]);  // Set product inside an array to match the type
-            addItem(productToAdd);  // Add to context cart
-            setIsCartOpen(true);  // Open cart after adding the item
-        }
-    };
+   
 
     return (
         <div className="mt-32 mb-12">
@@ -193,7 +186,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
                                 <h1 className='text-[15px] font-semibold font-karla text-[#2b2b2b] underline'>Details</h1>
                                 <p className='text-gray-400 font-karla  text-[14px]'>{data?.description}</p>
                                 <h1 className='text-[15px] mt-6 font-semibold font-karla text-[#2b2b2b]'>Features</h1>
-                                {data?.features?.map((f: any) => {
+                                {data?.features?.map((f: string) => {
                                     <ul key={f}>
                                         <li>{f}</li>
                                     </ul>

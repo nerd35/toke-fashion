@@ -40,8 +40,8 @@ const router = useRouter()
       
       toast.success('Login successful!');
       router.push('/')
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error) {
+      setError("An error occured");
     } finally {
       setLoading(false);
     }

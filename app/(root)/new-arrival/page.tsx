@@ -14,13 +14,13 @@ const conversionRates = {
 
 const Shop = () => {
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
-  const [products, setProducts] = useState([]); // State to store fetched products
+  const [products, setProducts] = useState<ProductData[]>([]); // State to store fetched products
   const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data: ProductData = await getData();
+        const data: ProductData[] = await getData();
         console.log('Fetched data:', data);
         if (Array.isArray(data)) {
           setProducts(data as any);
@@ -36,12 +36,12 @@ const Shop = () => {
     };
     fetchData();
   }, []);
-  
 
-  
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
   const newItems = products?.filter((item: any) => item.newArrival === "Yes" || item.newArrival === true);
 
-  
+
 
   // Convert price based on the selected currency
   const convertPrice = (priceInUSD: number) => {
@@ -80,26 +80,27 @@ const Shop = () => {
       <h2 className="text-2xl font-bold mb-4 text-center font-karla">New Arrivals</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto">
         {newItems?.length > 0 ? (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           newItems?.map((item: any) => (
             <div key={item?._id} className="h-full justify-center mx-auto text-center p-4 ">
               <div className="relative bg-gray-100 w-full h-72">
-                                <img
-                                    src={urlFor(item?.img[0]?.asset).url()}
-                                    alt={item.name}
-                                    className="w-[330px]  h-[275px] object-cover rounded"
-                                />
-                                {item.hot === "Yes" && (
+                <img
+                  src={urlFor(item?.img[0]?.asset).url()}
+                  alt={item.name}
+                  className="w-[330px]  h-[275px] object-cover rounded"
+                />
+                {item.hot === "Yes" && (
 
-                                <span className="absolute top-4 left-4 bg-red-700 text-white text-sm font-karla py-1 px-3 rounded">
-                                    {item.hot === "Yes" && <p>HOT</p>}
-                                </span>
-                                )}
-                            </div>
+                  <span className="absolute top-4 left-4 bg-red-700 text-white text-sm font-karla py-1 px-3 rounded">
+                    {item.hot === "Yes" && <p>HOT</p>}
+                  </span>
+                )}
+              </div>
               <Link href={`/product/${item.slug.current}`} className="text-[18px] font-semibold mt-2">{item?.name}</Link>
               <p className="text-gray-700">
-                from: <span className="font-bold text-red-500">{currency === 'USD' ? '$' : '₦'}{convertPrice(item?.price)}</span> 
+                from: <span className="font-bold text-red-500">{currency === 'USD' ? '$' : '₦'}{convertPrice(item?.price)}</span>
               </p>
-              <Link href={`/product/${item.slug.current}`}  className=" bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
+              <Link href={`/product/${item.slug.current}`} className=" bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
             </div>
           ))
         ) : (
