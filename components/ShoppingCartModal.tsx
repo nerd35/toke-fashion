@@ -11,6 +11,7 @@ import { Trash } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CheckoutNow from "./Checkout";
+import { ProductData } from "@/app/api/interface";
 
 const conversionRates = {
     USD: 1,
@@ -81,13 +82,13 @@ function ShoppingCartModal() {
                         </div>
                     ) : (
                         <>
-                            {items.map((item: ProductData) => (
+                            {items.map((item: CartItem) => (
                                 <div key={item._id} className="flex gap-4 py-4 border-b border-gray-200">
                                     <img src={item.img} alt={item.name} className="w-20 h-20 object-cover" />
                                     <div className="flex-1">
                                         <h4 className="text-[16px] font-karla font-bold">{item.name}</h4>
-                                        <p className="text-sm text-gray-600">Color: {item.color}</p>
-                                        <p className="text-sm text-gray-600">Size: {item.size}</p>
+                                        <p className="text-sm text-gray-600">Color: {item?.color}</p>
+                                        <p className="text-sm text-gray-600">Size: {item?.size}</p>
                                         <div className="flex items-center gap-2 mt-2">
                                             <button
                                                 onClick={() => handleDecrement(item)}

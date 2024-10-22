@@ -10,6 +10,8 @@ export interface CartItem {
     price: number;
     quantity: number;
     img: string;
+    color: string
+    size: string
 }
 export interface UserDetails {
     _id: string;

@@ -98,7 +98,7 @@ const NewArrival = () => {
         >
           {products?.map((item: ProductData) => (
             item.newArrival === "Yes" && (
-              <div key={item.id} className="flex-shrink-0 px-6 border-gray-50 rounded-md w-64 h-auto relative">
+              <div key={item._id} className="flex-shrink-0 px-6 border-gray-50 rounded-md w-64 h-auto relative">
                  <div className="relative w-full h-72">
                                 <img
                                     src={urlFor(item?.img[0]?.asset).url()}

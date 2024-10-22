@@ -39,7 +39,7 @@ const Shop = () => {
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const newItems = products?.filter((item: ProductData) => item.newArrival === "Yes" || item.newArrival === true);
+  const newItems = products?.filter((item: ProductData) => item.newArrival === "Yes");
 
 
 

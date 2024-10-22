@@ -12,9 +12,10 @@ export interface ProductCart {
     img: any;
     quantity: number;
     _id: string;
+    size: string
 }
 
-function AddToCart({ color, img, name, price, description, quantity, _id }: ProductCart) {
+function AddToCart({ color, img, name, price, description, quantity, _id, size }: ProductCart) {
     const { addItem, toggleCart } = useCart();
     const product = {
         name: name,
@@ -24,6 +25,7 @@ function AddToCart({ color, img, name, price, description, quantity, _id }: Prod
         img: urlFor(img).url(),
         quantity: quantity,
         _id: _id,
+        size: size,
     };
 
     return (
