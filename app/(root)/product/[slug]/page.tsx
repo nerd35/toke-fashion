@@ -157,7 +157,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 
                             {/* Buttons */}
                             <div className="mt-6 space-y-4">
-                                <AddToCart color={data?.color} name={data?.name} price={data?.price}  img={data?.img[0]} description={data?.description} quantity={quantity} _id={data?._id} />
+                                <AddToCart color={data?.color} name={data?.name} price={data?.price} img={data?.img[0]} description={data?.description} quantity={quantity} _id={data?._id} size={''} />
                                 <button className="w-full bg-black text-white py-3 rounded-md hover:bg-gray-700">
                                     Buy it now
                                 </button>
