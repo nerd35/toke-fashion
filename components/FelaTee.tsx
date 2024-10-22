@@ -87,6 +87,10 @@ const FelaTee = () => {
     };
   }, []);
 
+  if (loading) {
+    return <p>Loading products...</p>;
+  }
+
   return (
     <div className="relative">
       <div className="overflow-x-hidden flex">

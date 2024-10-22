@@ -57,7 +57,7 @@ const Navbar = () => {
   return (
     <header className="fixed w-full top-0 bg-white z-50 ">
       {/* Top Section for Desktop and Mobile */}
-      <div className="flex justify-between items-center px-6 md:px-16">
+      <nav className="flex justify-between items-center px-6 md:px-16">
         {/* Logo */}
         <Link href="/">
           <Image src="/cloths/toke-logo1.png" alt="logo" width={250} height={64} />
@@ -147,7 +147,7 @@ const Navbar = () => {
             {isDrawerOpen ? <FaTimes className="text-lg cursor-pointer" /> : <FaBars className="text-lg cursor-pointer" />}
           </div>
         </div>
-      </div>
+      </nav>
 
       {/* Drawer (Side Sheet) */}
       <div

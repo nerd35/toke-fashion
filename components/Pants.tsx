@@ -69,6 +69,10 @@ const Pants = () => {
         };
     }, []);
 
+    if (loading) {
+        return <p>Loading products...</p>;
+      }
+
     return (
         <div className="p-6 mb-12">
             <h2 className="text-2xl font-bold mb-4 text-center font-karla">Pants</h2>

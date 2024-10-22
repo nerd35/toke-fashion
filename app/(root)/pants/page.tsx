@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { EliteClothesLanding } from '@/app/(root)/data'; // Adjust the path as necessary
 import Link from 'next/link';
 import { ProductData } from '@/app/api/interface';
 import { getData } from '@/app/api/sanity';
@@ -72,6 +71,10 @@ const Pants = () => {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
+
+  if (loading) {
+    return <p>Loading products...</p>;
+  }
 
   return (
     <div className="p-6 mt-24 mb-12">

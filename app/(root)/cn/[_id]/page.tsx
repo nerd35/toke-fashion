@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/app/context/CartContext";
 
-export default function CheckoutPage({ params }: { params: { _id: string } }) {
+export default function CheckoutPage() {
   const { cartItems } = useCart();
   const router = useRouter();
 
@@ -15,6 +15,7 @@ export default function CheckoutPage({ params }: { params: { _id: string } }) {
     address: "",
     phone: "",
   });
+
 
   // Handle form submission
   const handleFormSubmit = (e: React.FormEvent) => {

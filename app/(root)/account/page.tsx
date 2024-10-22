@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  // @typescript-eslint/no-unused-vars
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 const router = useRouter()
@@ -36,7 +37,7 @@ const router = useRouter()
       const { token } = await response.json();
       localStorage.setItem('token', token); // Store token in local storage
 
-      // Optionally, redirect user after login or show success message
+      
       toast.success('Login successful!');
       router.push('/')
     } catch (error: any) {
@@ -56,6 +57,7 @@ const router = useRouter()
       setLoading(false); // If no token, set loading to false
     }
   }, [router]);
+ 
   if (loading) {
     return <div className="flex justify-center items-center min-h-screen"><p><Loader2 size={"30px"}/></p></div>; // Loading state
   }
@@ -65,7 +67,7 @@ const router = useRouter()
       <div className="w-full max-w-lg p-6 space-y-8 ">
         <h1 className="text-2xl font-semibold text-center">Login</h1>
         
-        
+        {error}
           <div className="mb-4">
             <label htmlFor="email" className="block font-karla text-lg font-semibold text-gray-700">
               Email

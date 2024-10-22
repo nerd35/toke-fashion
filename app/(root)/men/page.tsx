@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { EliteClothesLanding } from '@/app/(root)/data'; // Adjust the path as necessary
 import Link from 'next/link';
 import { ProductData } from '@/app/api/interface';
 import { getData } from '@/app/api/sanity';
@@ -39,7 +38,7 @@ const Pants = () => {
   }, []);
   
 
-  
+  // if(loading) return <div className='justify-center text-center mx-auto'><Loader2/></div>
  
 
     // Filter items that are in the "t-shirt" category
@@ -72,10 +71,14 @@ const Pants = () => {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
+  if (loading) {
+    return <p>Loading products...</p>;
+  }
 
   return (
     <div className="p-6 mt-24 mb-12">
       <h2 className="text-2xl font-bold mb-4 text-center font-karla">Men</h2>
+      
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto">
         {tShirtItems.length > 0 ? (
           tShirtItems.map((item: any) => (

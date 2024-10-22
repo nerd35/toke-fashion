@@ -6,10 +6,8 @@ import { useCart } from '@/app/context/CartContext';
 import AddToCart from '@/components/AddToCart';
 // import Checkout from '@/components/Checkout'; 
 import ImageGallery from '@/components/ImageGallery';
-import ShoppingCartModal from '@/components/ShoppingCartModal';
 import React, { useState, useEffect } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
-import { useShoppingCart } from "use-shopping-cart";
 
 
 const conversionRates = {
@@ -41,6 +39,8 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 
         fetchData();
     }, [params.slug]);
+
+    console.log(isCartOpen, cartProduct)
 
     // Function to increase the quantity
     const increaseQuantity = () => {

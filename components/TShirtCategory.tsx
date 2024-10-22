@@ -1,6 +1,5 @@
 "use client"
 
-import { EliteClothesLanding } from '@/app/(root)/data';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ProductData } from '@/app/api/interface';
@@ -79,7 +78,9 @@ const TShirtCategory = () => {
             window.removeEventListener('storage', handleStorageChange);
         };
     }, []);
-
+    if (loading) {
+        return <p>Loading products...</p>;
+      }
     return (
         <div className="p-6">
             <h2 className="text-2xl font-bold mb-4 text-center font-karla">T-Shirts</h2>

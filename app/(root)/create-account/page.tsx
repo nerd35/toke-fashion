@@ -44,7 +44,7 @@ const CreateAccount = () => {
             return; // Exit the function early
         }
         
-        const data = await res.json();
+        await res.json();
         toast.success('User created successfully:');
         router.push("/account")
         
