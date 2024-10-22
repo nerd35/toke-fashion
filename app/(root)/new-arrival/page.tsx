@@ -23,7 +23,7 @@ const Shop = () => {
         const data: ProductData[] = await getData();
         console.log('Fetched data:', data);
         if (Array.isArray(data)) {
-          setProducts(data as any);
+          setProducts(data);
           console.log('Products after fetching:', data);
         } else {
           console.warn('Expected an array for the products, received:', data);

@@ -19,7 +19,7 @@ const FelaTee = () => {
   const [scrollIndex, setScrollIndex] = useState(0);
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
   const itemsToShow = 4;
-  const [products, setProducts] = useState([]); // State to store fetched products
+  const [products, setProducts] = useState<ProductData[]>([]); // State to store fetched products
   const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const FelaTee = () => {
         const data: ProductData = await getData();
         console.log('Fetched data:', data);
         if (Array.isArray(data)) {
-          setProducts(data as any);
+          setProducts(data);
           console.log('Products after fetching:', data);
         } else {
           console.warn('Expected an array for the products, received:', data);
@@ -44,7 +44,7 @@ const FelaTee = () => {
   
 
   
-  const newItems = products?.filter((item: any) => item.hot === "Yes" || item.newArrival === true);
+  const newItems = products?.filter((item: ProductData) => item.hot === "Yes");
 
   
 
@@ -98,7 +98,8 @@ const FelaTee = () => {
           className="flex transition-transform gap-4 py-6"
           style={{ transform: `translateX(-${scrollIndex * (100 / itemsToShow)}%)` }}
         >
-          {newItems?.map((item: any) => (
+         
+          {newItems?.map((item: any) => ( 
             item.hot === "Yes" && (
               <div key={item._id} className="flex-shrink-0 px-6 border-gray-50 rounded-md w-64 h-auto relative">
                 <div className="relative w-full h-72">

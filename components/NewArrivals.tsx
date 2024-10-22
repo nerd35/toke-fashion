@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { EliteClothesLanding } from '@/app/(root)/data';
-import Image from 'next/image';
 import React from 'react';
 import { ProductData } from '@/app/api/interface';
 import { getData } from '@/app/api/sanity';
@@ -19,7 +18,7 @@ const NewArrival = () => {
   const [scrollIndex, setScrollIndex] = useState(0);
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
   const itemsToShow = 4;
-  const [products, setProducts] = useState([]); // State to store fetched products
+  const [products, setProducts] = useState<ProductData[]>([]); // State to store fetched products
   const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
@@ -28,7 +27,7 @@ const NewArrival = () => {
         const data: ProductData = await getData();
         console.log('Fetched data:', data);
         if (Array.isArray(data)) {
-          setProducts(data as any);
+          setProducts(data);
           console.log('Products after fetching:', data);
         } else {
           console.warn('Expected an array for the products, received:', data);
@@ -85,6 +84,10 @@ const NewArrival = () => {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
+
+  if (loading) {
+    return <p>Loading products...</p>;
+  }
 
   return (
     <div className="relative">

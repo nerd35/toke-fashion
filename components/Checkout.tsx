@@ -4,12 +4,13 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '@/app/context/CartContext';
 
 interface CheckoutNowProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: any[];
   totalPrice: number;
   totalItems: number;
 }
 
-function CheckoutNow({ items, totalPrice, totalItems }: CheckoutNowProps) {
+function CheckoutNow({ items }: CheckoutNowProps) {
   const { checkoutSingleItem, toggleCart } = useCart();
   const router = useRouter();
 

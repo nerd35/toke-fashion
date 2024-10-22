@@ -11,7 +11,7 @@ export interface CartItem {
     quantity: number;
     img: string;
 }
-interface UserDetails {
+export interface UserDetails {
     _id: string;
     firstname: string;
     lastname: string;

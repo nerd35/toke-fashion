@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-    const { items, totalPrice } = await request.json();
+    const {  totalPrice } = await request.json();
 
     const paystackUrl = "https://api.paystack.co/transaction/initialize";
     const secretKey = process.env.NEXT_PUBLIC_PAYSTACK_SECRET_KEY; // Ensure you're using the correct key
@@ -32,6 +32,8 @@ export async function POST(request: Request) {
             console.error("Paystack API error:", data);
             return NextResponse.json({ error: data.message || "Unable to create session" }, { status: 500 });
         }
+        
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         console.error("Error in Paystack request:", error);
         return NextResponse.json({ error: "Server error", details: error.message }, { status: 500 });

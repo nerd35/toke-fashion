@@ -1,7 +1,8 @@
+import { UserDetails } from '@/app/context/CartContext'
 import React from 'react'
 
 interface UserDetailProps {
-    userDetails: any
+    userDetails: UserDetails
 }
 
 const AccountDetails = ({userDetails}: UserDetailProps) => {

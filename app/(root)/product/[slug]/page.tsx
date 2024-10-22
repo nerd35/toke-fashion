@@ -27,9 +27,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     const [quantity, setQuantity] = useState<number>(1);
     const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
     const [loading, setLoading] = useState(true); // Loading state
-    const [isCartOpen, setIsCartOpen] = useState(false); 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [cartProduct, setCartProduct] = useState<CartItem[]>([]);
+    
   
 
     // Fetch product data on component mount
@@ -48,7 +46,6 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
         fetchData();
     }, [params.slug]);
 
-    console.log(isCartOpen, cartProduct)
 
     // Function to increase the quantity
     const increaseQuantity = () => {

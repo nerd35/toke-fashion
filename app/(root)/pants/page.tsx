@@ -42,7 +42,7 @@ const Pants = () => {
  
 
     // Filter items that are in the "t-shirt" category
-    const tShirtItems = products?.filter((item: any) => item.category === 'pant')
+    const tShirtItems = products?.filter((item: ProductData) => item.category === 'pant')
 
   // Convert price based on the selected currency
   const convertPrice = (priceInUSD: number) => {

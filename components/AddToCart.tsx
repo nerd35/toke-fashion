@@ -8,6 +8,7 @@ export interface ProductCart {
     price: number;
     color: string;
     description: string;
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
     img: any;
     quantity: number;
     _id: string;

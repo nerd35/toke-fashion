@@ -14,7 +14,7 @@ const conversionRates = {
 
 const TShirtCategory = () => {
     const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
-    const [products, setProducts] = useState([]); // State to store fetched products
+    const [products, setProducts] = useState<ProductData[]>([]); // State to store fetched products
     const [loading, setLoading] = useState(true); // Loading state
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const TShirtCategory = () => {
                 const data: ProductData = await getData();
                 console.log('Fetched data:', data);
                 if (Array.isArray(data)) {
-                    setProducts(data as any);
+                    setProducts(data);
                     console.log('Products after fetching:', data);
                 } else {
                     console.warn('Expected an array for the products, received:', data);
@@ -48,7 +48,7 @@ const TShirtCategory = () => {
 
 
     // Filter items that are in the "t-shirt" category
-    const tShirtItems = products?.filter((item: any) => item.category === 't-shirt');
+    const tShirtItems = products?.filter((item: ProductData) => item.category === 't-shirt');
     const randomTShirtItems = shuffleArray(tShirtItems).slice(0, 4);
 
     // Convert price based on the selected currency
@@ -86,6 +86,7 @@ const TShirtCategory = () => {
             <h2 className="text-2xl font-bold mb-4 text-center font-karla">T-Shirts</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mx-auto gap-6">
                 {randomTShirtItems.length > 0 ? (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     randomTShirtItems.map((item: any) => (
                         <div key={item._id} className="h-full justify-center mx-auto text-center p-4">
                            

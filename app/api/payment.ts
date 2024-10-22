@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const { email, amount } = req.body;
+    // const { email, amount } = req.body;
 
     // Here you would normally initiate the payment on your server
     // For this example, we'll just return a success response

@@ -19,7 +19,7 @@ const conversionRates = {
 
 function ShoppingCartModal() {
     const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
-    const { getCartDetails, isCartOpen, toggleCart, getTotalPrice, addItem, removeItem } = useCart();
+    const { getCartDetails, isCartOpen, toggleCart, addItem, removeItem } = useCart();
     const { items, totalItems, totalPrice } = getCartDetails(); // Destructure items and totalItems from getCartDetails
 
     // Function to handle quantity increment

@@ -1,5 +1,4 @@
 // pages/api/login.ts
-import { NextApiRequest, NextApiResponse, } from 'next';
 import { createClient } from '@sanity/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';

@@ -15,7 +15,7 @@ const conversionRates = {
 
 const Pants = () => {
     const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
-    const [products, setProducts] = useState([]); // State to store fetched products
+    const [products, setProducts] = useState<ProductData[]>([]); // State to store fetched products
     const [loading, setLoading] = useState(true); // Loading state
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const Pants = () => {
     }, []);
 
     // Filter items that are in the "pant" category
-    const pantItems = products?.filter((item: any) => item.category === 'pant').slice(0, 4);
+    const pantItems = products?.filter((item: ProductData) => item.category === 'pant').slice(0, 4);
 
     // Convert price based on the selected currency
     const convertPrice = (priceInUSD: number) => {
