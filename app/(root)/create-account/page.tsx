@@ -55,7 +55,7 @@ const CreateAccount = () => {
     
 
     return (
-        <form onSubmit={handleSubmit} className='flex flex-col justify-center'>
+        <form onSubmit={handleSubmit} className='flex md:mt-24 flex-col justify-center'>
             <div className="min-h-screen flex flex-col justify-center items-center bg-gray-50">
                 <div className="w-full max-w-lg p-6 space-y-8">
                     <h1 className="text-2xl font-semibold text-center">Create Account</h1>

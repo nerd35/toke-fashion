@@ -5,6 +5,7 @@ import { getDataBySlug } from '@/app/api/sanity';
 import AddToCart from '@/components/AddToCart';
 // import Checkout from '@/components/Checkout'; 
 import ImageGallery from '@/components/ImageGallery';
+import { urlFor } from '@/lib/sanity';
 import React, { useState, useEffect } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 
@@ -93,7 +94,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             <div className="mx-auto max-w-screen-xl px-4 md:px-8">
                 <div className="grid gap-8 md:grid-cols-2">
                     {/* Image gallery */}
-                    <ImageGallery img={data?.img as unknown as Array<{ asset: any }>} item={data?.hot as unknown as any} />
+                    <ImageGallery img={urlFor(data?.img).url()} item={data?.hot} />
 
                     {/* Product details section */}
                     <div className="mt-20">

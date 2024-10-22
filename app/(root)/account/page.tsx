@@ -62,7 +62,7 @@ const router = useRouter()
     return <div className="flex justify-center items-center min-h-screen"><p><Loader2 size={"30px"}/></p></div>; // Loading state
   }
   return (
-    <form onSubmit={handleSubmit} className='flex flex-col justify-center'>
+    <form onSubmit={handleSubmit} className='flex flex-col md:mt-24 justify-center'>
       <div className="min-h-screen flex flex-col justify-center items-center bg-gray-50">
       <div className="w-full max-w-lg p-6 space-y-8 ">
         <h1 className="text-2xl font-semibold text-center">Login</h1>

@@ -1,5 +1,5 @@
 'use client'; // Required to use state in Next.js 14's App Router
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Card from '@/components/Card'; // Assuming Card component is imported
 
@@ -14,11 +14,15 @@ import {
 } from 'react-icons/hi';
 import { useCart } from '@/app/context/CartContext';
 import AccountDetails from './_components/AccountDetails';
+import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 
 const Profile = () => {
   // State to manage active tab
   const [activeTab, setActiveTab] = useState('dashboard');
   const { userDetails } = useCart();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter()
 
   // Tabs configuration
   const tabs = [
@@ -30,6 +34,22 @@ const Profile = () => {
     { id: 'account-details', label: 'Account Details' },
     { id: 'wishlist', label: 'Wishlist' },
   ];
+
+  useEffect(() => {
+    setLoading(true)
+    // Check for the token on component mount
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // If the token exists, redirect to the landing page
+      router.push('/account'); // Change this to your landing page route
+    } else {
+      setLoading(false); // If no token, set loading to false
+    }
+  }, [router]);
+ 
+  if (loading) {
+    return <div className="flex justify-center items-center min-h-screen"><p><Loader2 size={"30px"}/></p></div>; // Loading state
+  }
 
   return (
     <>

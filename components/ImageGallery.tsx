@@ -2,21 +2,15 @@
 import { urlFor } from '@/lib/sanity';
 import React, { useState } from 'react';
 
-interface IImage {
-  asset: {
-    url: string; // Adjust based on your actual structure
-  };
-}
-
 interface IAppProps {
-  img: IImage[];  // Array of image objects
-  item: string;
+  img: string | string[];  // Array of image URLs
+  item: string
 }
 
 const ImageGallery: React.FC<IAppProps> = ({ img, item }) => {
   // Automatically select the first image from the array as the initial selected image
-  const [selectedImage, setSelectedImage] = useState<string>(urlFor(img[0]?.asset.url).url());
-
+  const images = Array.isArray(img) ? img : [img];
+  const [selectedImage, setSelectedImage] = useState<string | string[]>(images[0]);
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -37,15 +31,15 @@ const ImageGallery: React.FC<IAppProps> = ({ img, item }) => {
 
       {/* Thumbnail Gallery */}
       <div className="flex space-x-4 mt-4">
-        {img.map((imageUrl, index) => (
-           <img
-           key={index}
-           src={urlFor(imageUrl.asset.url).url()} // Use the URL from the asset
-           alt={`Thumbnail ${index}`}
-           onClick={() => setSelectedImage(imageUrl.asset.url)} // Update the selected image on click
-           className={`cursor-pointer w-24 h-24 object-cover rounded-lg border-2 ${selectedImage === imageUrl.asset.url ? 'border-black' : 'border-transparent'
-             }`}
-         />
+        {images?.map((imageUrl, index) => (
+          <img
+            key={index}
+            src={urlFor(imageUrl).url()}
+            alt={`Thumbnail ${index}`}
+            onClick={() => setSelectedImage(imageUrl)} // Update the selected image on click
+            className={`cursor-pointer w-24 h-24 object-cover rounded-lg border-2 ${selectedImage === imageUrl ? 'border-black' : 'border-transparent'
+              }`}
+          />
         ))}
       </div>
     </div>
