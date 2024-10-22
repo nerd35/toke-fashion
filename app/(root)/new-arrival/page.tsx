@@ -1,20 +1,47 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { EliteClothesLanding } from '@/app/(root)/data'; // Adjust the path according to your structure
 import Link from 'next/link';
+import { getData } from '@/app/api/sanity';
+import { urlFor } from '@/lib/sanity';
+import { ProductData } from '@/app/api/interface';
 
 // Conversion rates (hardcoded for now, but can be dynamic)
 const conversionRates = {
   USD: 1,
-  NGN: 1630, // Example rate
+  NGN: 1830, // Example rate
 };
 
 const Shop = () => {
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
+  const [products, setProducts] = useState([]); // State to store fetched products
+  const [loading, setLoading] = useState(true); // Loading state
 
-  // Filter items that are marked as new
-  const newItems = EliteClothesLanding.filter(item => item.isNew);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data: ProductData = await getData();
+        console.log('Fetched data:', data);
+        if (Array.isArray(data)) {
+          setProducts(data as any);
+          console.log('Products after fetching:', data);
+        } else {
+          console.warn('Expected an array for the products, received:', data);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+  
+
+  
+  const newItems = products?.filter((item: any) => item.newArrival === "Yes" || item.newArrival === true);
+
+  
 
   // Convert price based on the selected currency
   const convertPrice = (priceInUSD: number) => {
@@ -44,19 +71,35 @@ const Shop = () => {
     };
   }, []);
 
+  if (loading) {
+    return <p>Loading products...</p>;
+  }
+
   return (
     <div className="p-6 mt-36 mb-12">
       <h2 className="text-2xl font-bold mb-4 text-center font-karla">New Arrivals</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto">
-        {newItems.length > 0 ? (
-          newItems.map(item => (
-            <div key={item.id} className="h-full justify-center mx-auto text-center p-4 ">
-              <img src={item.img} alt={item.name} className="w-full h-54 object-cover rounded" />
-              <h3 className="text-[18px] font-semibold mt-2">{item.name}</h3>
+        {newItems?.length > 0 ? (
+          newItems?.map((item: any) => (
+            <div key={item?._id} className="h-full justify-center mx-auto text-center p-4 ">
+              <div className="relative bg-gray-100 w-full h-72">
+                                <img
+                                    src={urlFor(item?.img[0]?.asset).url()}
+                                    alt={item.name}
+                                    className="w-[330px]  h-[275px] object-cover rounded"
+                                />
+                                {item.hot === "Yes" && (
+
+                                <span className="absolute top-4 left-4 bg-red-700 text-white text-sm font-karla py-1 px-3 rounded">
+                                    {item.hot === "Yes" && <p>HOT</p>}
+                                </span>
+                                )}
+                            </div>
+              <Link href={`/product/${item.slug.current}`} className="text-[18px] font-semibold mt-2">{item?.name}</Link>
               <p className="text-gray-700">
-                from: <span className="font-bold text-red-500">{currency === 'USD' ? '$' : '₦'}{convertPrice(item.price)}</span> 
+                from: <span className="font-bold text-red-500">{currency === 'USD' ? '$' : '₦'}{convertPrice(item?.price)}</span> 
               </p>
-              <Link href={`/item/${item.id}`} className=" bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
+              <Link href={`/product/${item.slug.current}`}  className=" bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
             </div>
           ))
         ) : (

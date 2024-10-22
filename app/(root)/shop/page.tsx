@@ -7,7 +7,7 @@ import Link from 'next/link';
 // Conversion rates (hardcoded for now, but can be dynamic)
 const conversionRates = {
   USD: 1,
-  NGN: 1630, // Example rate
+  NGN: 1830, // Example rate
 };
 
 const Shop = () => {

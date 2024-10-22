@@ -1,20 +1,45 @@
-"use client"
+"use client";
 
 import { EliteClothesLanding } from '@/app/(root)/data';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { ProductData } from '@/app/api/interface';
+import { getData } from '@/app/api/sanity';
+import { urlFor } from '@/lib/sanity';
 
 // Conversion rates (hardcoded for now, but can be dynamic)
 const conversionRates = {
     USD: 1,
-    NGN: 1630, // Example rate
+    NGN: 1830, // Example rate
 };
 
 const Pants = () => {
     const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
+    const [products, setProducts] = useState([]); // State to store fetched products
+    const [loading, setLoading] = useState(true); // Loading state
 
-    // Filter items that are in the "t-shirt" category
-    const tShirtItems = EliteClothesLanding.filter(item => item.category === 'pant').slice(0, 4);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data: ProductData = await getData();
+                console.log('Fetched data:', data);
+                if (Array.isArray(data)) {
+                    setProducts(data as any);
+                    console.log('Products after fetching:', data);
+                } else {
+                    console.warn('Expected an array for the products, received:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    // Filter items that are in the "pant" category
+    const pantItems = products?.filter((item: any) => item.category === 'pant').slice(0, 4);
 
     // Convert price based on the selected currency
     const convertPrice = (priceInUSD: number) => {
@@ -48,16 +73,18 @@ const Pants = () => {
         <div className="p-6 mb-12">
             <h2 className="text-2xl font-bold mb-4 text-center font-karla">Pants</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mx-auto gap-6">
-                {tShirtItems.length > 0 ? (
-                    tShirtItems.map(item => (
-                        <div key={item.id} className="h-full justify-center mx-auto text-center p-4">
-                            <img src={item.img} alt={item.name} className="w-[300px] h-[375px] object-cover rounded" />
-                            <h3 className="text-lg font-semibold mt-2">{item.name}</h3>
+                {pantItems.length > 0 ? (
+                    pantItems.map((item: any) => (
+                        <div key={item._id} className="h-full justify-center mx-auto text-center p-4">
+                            <img src={urlFor(item?.img[0]?.asset).url()} alt={item.name} className="w-[300px] h-[375px] object-cover rounded" />
+                            <Link href={`/product/${item.slug.current}`} className="text-lg font-semibold mt-2">
+                                {item.name}
+                            </Link>
                             <p className="text-gray-700">from: <span className="font-bold text-red-500">{currency === 'USD' ? '$' : '₦'}{convertPrice(item.price)}</span></p>
                         </div>
                     ))
                 ) : (
-                    <p className="text-gray-500">No t-shirts available at the moment.</p>
+                    <p className="text-gray-500">No pants available at the moment.</p>
                 )}
             </div>
             <div className="text-center">

@@ -5,14 +5,14 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { FaHome, FaShoppingCart, FaUserAlt, FaSearch, FaBars, FaTimes, FaWhatsapp } from 'react-icons/fa';
 import Image from 'next/image';
-
-
+import { useCart } from '@/app/context/CartContext';
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD');
   const [loading, setLoading] = useState(false); // Loading state for currency change
   const pathname = usePathname();
+  const { toggleCart } = useCart();
 
   // Toggle drawer visibility
   const toggleDrawer = () => {
@@ -41,8 +41,17 @@ const Navbar = () => {
     }
   }, []);
 
+  // Check if user is logged in (you can adjust this condition based on your authentication logic)
+  const isUserLoggedIn = () => {
+    const token = localStorage.getItem('token');
+    return !!token; // returns true if token exists
+  };
+
+  // Determine if user details exist (adjust based on your app's logic)
+  const userDetails = isUserLoggedIn();
+
   return (
-    <header className="fixed w-full top-0 bg-white z-50 shadow-md">
+    <header className="fixed w-full top-0 bg-white z-50 ">
       {/* Top Section for Desktop and Mobile */}
       <div className="flex justify-between items-center px-6 md:px-16">
         {/* Logo */}
@@ -101,22 +110,33 @@ const Navbar = () => {
 
           <FaSearch className="text-sm cursor-pointer" />
           <div className="hidden md:flex items-center gap-3">
-            <Link href="/account">
-              <span
-                className={`flex gap-2 font-karla items-center text-sm ${isActive('/account') ? 'text-blue-500' : 'text-gray-500'}`}
-              >
-                Account
-                <FaUserAlt className="text-md" />
-              </span>
-            </Link>
-            <Link href="/cart">
+            {userDetails ? (
+              <Link href="/profile">
+                <span
+                  className={`flex gap-2 font-karla items-center text-sm ${isActive('/profile') ? 'text-blue-500' : 'text-gray-500'}`}
+                >
+                  Profile
+                  <FaUserAlt className="text-md" />
+                </span>
+              </Link>
+            ) : (
+              <Link href="/account">
+                <span
+                  className={`flex gap-2 font-karla items-center text-sm ${isActive('/account') ? 'text-blue-500' : 'text-gray-500'}`}
+                >
+                  Account
+                  <FaUserAlt className="text-md" />
+                </span>
+              </Link>
+            )}
+            <div onClick={() => toggleCart()}>
               <span
                 className={`flex gap-1 font-karla items-center text-sm ${isActive('/cart') ? 'text-blue-500' : 'text-gray-700'}`}
               >
                 Cart
                 <FaShoppingCart className="text-md" />
               </span>
-            </Link>
+            </div>
           </div>
 
           <div className="md:hidden" onClick={toggleDrawer}>
@@ -145,16 +165,24 @@ const Navbar = () => {
               Shop
             </span>
           </Link>
-          <Link href="/cart">
+          <div onClick={() => toggleCart()}>
             <span onClick={toggleDrawer} className={`text-xl font-semibold cursor-pointer ${isActive('/cart') ? 'text-blue-500' : 'text-gray-700'}`}>
               Cart
             </span>
-          </Link>
-          <Link href="/account">
-            <span onClick={toggleDrawer} className={`text-xl font-semibold cursor-pointer ${isActive('/account') ? 'text-blue-500' : 'text-gray-700'}`}>
-              Account
-            </span>
-          </Link>
+          </div>
+          {userDetails ? (
+            <Link href="/profile">
+              <span onClick={toggleDrawer} className={`text-xl font-semibold cursor-pointer ${isActive('/profile') ? 'text-blue-500' : 'text-gray-700'}`}>
+                Profile
+              </span>
+            </Link>
+          ) : (
+            <Link href="/account">
+              <span onClick={toggleDrawer} className={`text-xl font-semibold cursor-pointer ${isActive('/account') ? 'text-blue-500' : 'text-gray-700'}`}>
+                Account
+              </span>
+            </Link>
+          )}
         </div>
       </div>
 
@@ -172,36 +200,28 @@ const Navbar = () => {
             Shop
           </span>
         </Link>
-        <Link href="/cart">
+        <div onClick={() => toggleCart()}>
           <span className={`flex flex-col font-karla items-center text-sm ${isActive('/cart') ? 'text-blue-500' : 'text-gray-700'}`}>
             <FaShoppingCart className="text-md" />
             Cart
           </span>
-        </Link>
-        <Link href="/account">
-          <span className={`flex flex-col font-karla items-center text-sm ${isActive('/account') ? 'text-blue-500' : 'text-gray-700'}`}>
-            <FaUserAlt className="text-md" />
-            Account
-          </span>
-        </Link>
+        </div>
+        {userDetails ? (
+          <Link href="/profile">
+            <span className={`flex flex-col font-karla items-center text-sm ${isActive('/profile') ? 'text-blue-500' : 'text-gray-700'}`}>
+              <FaUserAlt className="text-md" />
+              Profile
+            </span>
+          </Link>
+        ) : (
+          <Link href="/account">
+            <span className={`flex flex-col font-karla items-center text-sm ${isActive('/account') ? 'text-blue-500' : 'text-gray-700'}`}>
+              <FaUserAlt className="text-md" />
+              Account
+            </span>
+          </Link>
+        )}
       </nav>
-
-      {/* WhatsApp Button */}
-      <Link
-        href="https://wa.me/message/SUPMHAZ6QTFZL1"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-24 right-4 md:bottom-8 md:right-8 bg-black p-4 rounded-full text-white shadow-lg z-50 flex items-center justify-center"
-      >
-        <FaWhatsapp className="text-2xl" />
-      </Link>
-
-      {/* Loader styling */}
-      <style jsx>{`
-        .loader {
-          border-width: 2px;
-        }
-      `}</style>
     </header>
   );
 };
