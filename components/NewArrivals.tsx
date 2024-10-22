@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-
+import { EliteClothesLanding } from '@/app/(root)/data';
 import Image from 'next/image';
 import React from 'react';
 import { ProductData } from '@/app/api/interface';

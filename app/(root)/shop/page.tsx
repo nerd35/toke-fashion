@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
- // Adjust the path as necessary
+import { EliteClothesLanding } from '@/app/(root)/data'; // Adjust the path as necessary
 import Link from 'next/link';
 
 // Conversion rates (hardcoded for now, but can be dynamic)

@@ -11,8 +11,8 @@ function SuccessPage() {
         Payment Successful!
     </h3>
     <p className='text-gray-600 my-2 px-6'>Thank You for your purchase, Check your email for order confirmation</p>
-    <p>Have a great day</p>
-    <Link className='text-center text-bold font-karla text-blue-600 mt-3 underline' href={"/shop"}>Continue shopping</Link>
+    <p className='mb-3'>Have a great day</p>
+    <Link className='text-center text-bold text-xl font-karla text-blue-600 mt-3 underline' href={"/shop"}>Continue shopping</Link>
 </div>
       <div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-
+import { EliteClothesLanding } from '@/app/(root)/data';
 import Image from 'next/image';
 import React from 'react';
 import { ProductData } from '@/app/api/interface';
@@ -106,7 +106,7 @@ const FelaTee = () => {
                     className="rounded-md"
                   />
                   <span className="absolute top-4 left-4 bg-red-700 text-white text-sm font-karla py-1 px-3 rounded">
-                     {item.hot === "Yes" && <p>HOT</p>}
+                     {item.hot === "Yes" && <p>Hot</p>}
                   </span>
                 </div>
                 <Link href={`/product/${item.slug.current}`} className="text-center text-[15px] font-karla text-[#2b2b2b]">{item.name}</Link>

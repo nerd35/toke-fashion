@@ -5,7 +5,7 @@ import Pants from "@/components/Pants";
 import TShirtCategory from "@/components/TShirtCategory";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic"
+
 
 
 export default function Home() {
