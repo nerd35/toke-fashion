@@ -1,6 +1,6 @@
 "use client"
 
-import { EliteClothesLanding } from '@/app/(root)/data';
+
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ProductData } from '@/app/api/interface';
