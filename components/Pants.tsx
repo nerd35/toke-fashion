@@ -1,6 +1,5 @@
 "use client";
 
-import { EliteClothesLanding } from '@/app/(root)/data';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ProductData } from '@/app/api/interface';
@@ -24,7 +23,7 @@ const Pants = () => {
                 const data: ProductData = await getData();
                 console.log('Fetched data:', data);
                 if (Array.isArray(data)) {
-                    setProducts(data as any);
+                    setProducts(data);
                     console.log('Products after fetching:', data);
                 } else {
                     console.warn('Expected an array for the products, received:', data);

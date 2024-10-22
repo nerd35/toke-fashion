@@ -93,7 +93,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             <div className="mx-auto max-w-screen-xl px-4 md:px-8">
                 <div className="grid gap-8 md:grid-cols-2">
                     {/* Image gallery */}
-                    <ImageGallery img={data?.img as any} item={data?.hot as any} />
+                    <ImageGallery img={data?.img as unknown as Array<{ asset: any }>} item={data?.hot as unknown as any} />
 
                     {/* Product details section */}
                     <div className="mt-20">
@@ -176,11 +176,11 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
                                 <h1 className='text-[15px] font-semibold font-karla text-[#2b2b2b] underline'>Details</h1>
                                 <p className='text-gray-400 font-karla  text-[14px]'>{data?.description}</p>
                                 <h1 className='text-[15px] mt-6 font-semibold font-karla text-[#2b2b2b]'>Features</h1>
-                                {data?.features?.map((f: string) => {
-                                    <ul key={f}>
-                                        <li>{f}</li>
-                                    </ul>
-                                })}
+                                <ul>
+                                    {data?.features?.map((f: string, index: number) => (
+                                        <li key={index}>{f}</li> // Ensure each list item has a key
+                                    ))}
+                                </ul>
                             </div>
                         </div>
                     </div>

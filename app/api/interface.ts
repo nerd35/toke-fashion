@@ -16,7 +16,7 @@ export interface ProductData {
     slug: { current: string; _type: string }; // e.g., { current: 'elitesmerch-signature-t-shirt-white', _type: 'slug' }
     _createdAt: string;     // ISO date string, e.g., "2024-10-20T12:59:42Z"
     _id: string;            // Unique identifier, e.g., "0111d792-2a73-46c7-85c2-18cc1512a0e4"
-    features: any
+    features: string[]
     hot: string
   }
   

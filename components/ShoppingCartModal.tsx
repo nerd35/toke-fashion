@@ -11,7 +11,6 @@ import { Trash } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CheckoutNow from "./Checkout";
-import { ProductData } from "@/app/api/interface";
 
 const conversionRates = {
     USD: 1,
