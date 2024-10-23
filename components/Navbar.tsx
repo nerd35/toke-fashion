@@ -192,7 +192,7 @@ const Navbar = () => {
         </div>
       </div>
           <div className='fixed bottom-[80px] z-50 right-2'>
-            <Link href="" target='_blank' ><FaWhatsapp size={40 } className='bg-black p-2 rounded-full text-white'/></Link>
+            <Link href="https://wa.me/message/SUPMHAZ6QTFZL1" target='_blank' ><FaWhatsapp size={40 } className='bg-black p-2 rounded-full text-white'/></Link>
           </div>
       {/* Bottom Mobile Menu */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white flex justify-around py-3 border-t-2 shadow-lg">
