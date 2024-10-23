@@ -11,7 +11,7 @@ interface BuyNowProps {
 }
 
 function BuyNow({ items }: BuyNowProps) {
-  const { checkoutSingleItem, toggleCart } = useCart();
+  const { checkoutSingleItem } = useCart();
   const router = useRouter();
 
   function buyNow(productId: string) {

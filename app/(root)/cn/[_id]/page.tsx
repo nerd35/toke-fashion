@@ -18,6 +18,12 @@ const conversionRates = {
     NGN: 1, // 1 NGN is 1 NGN
 };
 
+interface OrderProps {
+    name: string,
+    price: number,
+
+}
+
 
 export default function CheckoutPage() {
     const { cartItems, userDetails, getCartDetails } = useCart(); // Assuming userDetails comes from useCart
@@ -36,7 +42,7 @@ export default function CheckoutPage() {
         paymentMethod: 'paystack' | 'bank';
         totalAmount: number;
         status: 'pending' | 'success';
-        orderDetails: any[];
+        orderDetails: OrderProps[];
     }
     const router = useRouter();
     const [selectedPayment, setSelectedPayment] = useState<'paystack' | 'bank' | null>('paystack');
@@ -147,7 +153,7 @@ export default function CheckoutPage() {
         toast.info('Transaction cancelled.');
     };
     // Handle successful Paystack payment
-    const handlePaystackSuccess = async (reference: any) => {
+    const handlePaystackSuccess = async () => {
         const totalAmountInNGN = convertPriceToNGN(totalPrice);
         // Create order after successful payment
         const orderData: OrderDetails = {
