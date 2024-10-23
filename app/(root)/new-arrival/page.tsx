@@ -16,6 +16,9 @@ const Shop = () => {
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
   const [products, setProducts] = useState<ProductData[]>([]); // State to store fetched products
   const [loading, setLoading] = useState(true); // Loading state
+  console.log("Project Key:", process.env.NEXT_PUBLIC_PROJECT_KEY);
+console.log("Dataset:", process.env.NEXT_PUBLIC_DATASET);
+
 
   useEffect(() => {
     const fetchData = async () => {

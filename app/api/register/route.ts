@@ -3,10 +3,10 @@ import { createClient } from '@sanity/client';
 import bcrypt from 'bcrypt';
 
 const client = createClient({
-    projectId: '73vn145o',
-    dataset: 'production',
+    projectId: process.env.NEXT_PUBLIC_PROJECT_KEY,
+    dataset: process.env.NEXT_PUBLIC_DATASET,
     useCdn: true,
-    token: 'sk4AYjHfuBhpmNMDMRDHNFkU0Jqi3KB3iNBuvKtK6WmnpO8u65uByHXy23sEbRumTFSyptCrsubzDmVxCzEbKrK2PCsEwlHSz1n8vkUjljBN2Rx94fCGNRDULIfk2lg1VYXVMI1dhUXYUi1QDYHBdPl8LcmtNvYqu1s11KjzrizxWb5Hz67T',
+    token:process.env.NEXT_PUBLIC_TOKEN,
   apiVersion: '2022-03-07' 
 });
 

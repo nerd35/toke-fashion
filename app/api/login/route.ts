@@ -5,8 +5,8 @@ import jwt from 'jsonwebtoken';
 import { NextRequest, NextResponse  } from 'next/server';
 
 const client = createClient({
-    projectId: '73vn145o',
-    dataset: 'production',
+    projectId: process.env.NEXT_PUBLIC_PROJECT_KEY,
+    dataset: process.env.NEXT_PUBLIC_DATASET,
   useCdn: true,
 });
 
