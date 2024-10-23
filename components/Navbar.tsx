@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { FaHome, FaShoppingCart, FaUserAlt, FaSearch, FaBars, FaTimes, 
+import { FaHome, FaShoppingCart, FaUserAlt, FaSearch, FaBars, FaTimes, FaWhatsapp, 
   // FaWhatsapp 
 } from 'react-icons/fa';
 import Image from 'next/image';
@@ -191,8 +191,8 @@ const Navbar = () => {
           )}
         </div>
       </div>
-          <div className='fixed bottom-[40px] z-50 right-0'>
-Hello
+          <div className='fixed bottom-[80px] z-50 right-2'>
+            <Link href="" target='_blank' ><FaWhatsapp size={40 } className='bg-black p-2 rounded-full text-white'/></Link>
           </div>
       {/* Bottom Mobile Menu */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white flex justify-around py-3 border-t-2 shadow-lg">
