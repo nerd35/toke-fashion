@@ -7,6 +7,12 @@ async function getData() {
     return data;
 }
 
+async function getCountryData() {
+    const query = "*[_type == 'country']";
+    const data = await client.fetch(query);
+    return data;
+}
+
 // Fetch product by slug
 async function getDataBySlug(slug: string) {
     const query = `*[_type == "product" && slug.current == "${slug}"][0]{
@@ -51,5 +57,6 @@ async function getUserDataById(userId: string) {
 export {
     getData,
     getDataBySlug,
-    getUserDataById // Export the new function
+    getUserDataById,
+    getCountryData
 }

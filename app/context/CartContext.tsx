@@ -38,6 +38,7 @@ interface CartContextProps {
     getCartDetails: () => { items: CartItem[]; totalItems: number; totalPrice: number };
     isCartOpen: boolean;
     toggleCart: () => void;
+    setUserDetails: (details: UserDetails) => void;
 }
 
 
@@ -146,7 +147,7 @@ const checkoutSingleItem = (id: string): CartItem | undefined => {
     return undefined;
 };
     return (
-        <CartContext.Provider value={{ cartItems, userDetails, checkoutSingleItem, addItem, removeItem, clearCart, toggleCart, getTotalItems, getTotalPrice, getCartDetails, isCartOpen }}>
+        <CartContext.Provider value={{ cartItems, userDetails, setUserDetails, checkoutSingleItem, addItem, removeItem, clearCart, toggleCart, getTotalItems, getTotalPrice, getCartDetails, isCartOpen }}>
             {children}
         </CartContext.Provider>
     );
