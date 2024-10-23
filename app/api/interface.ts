@@ -19,4 +19,33 @@ export interface ProductData {
     features: string[]
     hot: string
   }
+
+  // Define the OrderItem interface
+interface OrderItem {
+  id: string; // Unique identifier for the item
+  name: string; // Name of the product
+  description: string; // Description of the product
+  quantity: number; // Quantity of the product ordered
+  price: number; // Price of the product
+  img: string; // URL of the product image
+  color: string; // Color of the product
+}
+
+// Define the Order interface
+export interface Order {
+  id: string; // Unique identifier for the order
+  userId: string; // User's unique identifier
+  firstname: string; // First name of the user
+  lastname: string; // Last name of the user
+  email: string; // User's email address
+  phone: string; // User's phone number
+  address: string; // User's address
+  city: string; // User's city
+  state: string; // User's state
+  country: string; // User's country
+  paymentMethod: 'paystack' | 'bank'; // Payment method used
+  totalAmount: number; // Total amount for the order
+  status: 'pending' | 'success' | 'failed'; // Status of the order
+  orderDetails: OrderItem[]; // Array of items in the order
+}
   

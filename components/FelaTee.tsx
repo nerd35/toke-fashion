@@ -61,8 +61,12 @@ const FelaTee = () => {
 
   // Convert price based on the selected currency
   const convertPrice = (priceInUSD: number) => {
-    return (priceInUSD * conversionRates[currency]).toFixed(2); // Convert and round to 2 decimals
-  };
+    const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
+    }).format(parseFloat(convertedPrice));
+};
 
   // Fetch preferred currency from localStorage on component mount
   useEffect(() => {
@@ -101,7 +105,7 @@ const FelaTee = () => {
          
           {newItems?.map((item: ProductData) => ( 
             item.hot === "Yes" && (
-              <div key={item._id} className="flex-shrink-0 px-6 border-gray-50 rounded-md w-64 h-auto relative">
+              <Link href={`/product/${item.slug.current}`}  key={item._id} className="flex-shrink-0 px-6 border-gray-50 rounded-md w-64 h-auto relative">
                 <div className="relative w-full h-72">
                   <Image
                     src={urlFor(item?.img[0]?.asset).url()}
@@ -116,7 +120,7 @@ const FelaTee = () => {
                 </div>
                 <Link href={`/product/${item.slug.current}`} className="text-center text-[15px] font-karla text-[#2b2b2b]">{item.name}</Link>
                 <p className='text-red-500 font-bold font-karla text-center'>{currency === 'USD' ? '$' : '₦'}{convertPrice(item.price)}</p>
-              </div>
+              </Link>
             )
           ))}
         </div>

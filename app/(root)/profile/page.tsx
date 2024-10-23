@@ -16,6 +16,7 @@ import { useCart } from '@/app/context/CartContext';
 import AccountDetails from './_components/AccountDetails';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
+import UserOrders from './_components/UserOrder';
 
 const Profile = () => {
   // State to manage active tab
@@ -50,6 +51,11 @@ const Profile = () => {
   if (loading) {
     return <div className="flex justify-center items-center min-h-screen"><p><Loader2 size={"30px"}/></p></div>; // Loading state
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Remove the token from local storage
+    router.push('/account'); // Redirect to login page
+  };
 
   return (
     <>
@@ -103,7 +109,7 @@ const Profile = () => {
               <div onClick={() => setActiveTab('wishlist')}>
                 <Card title="Wishlist" icon={<HiOutlineHeart />} />
               </div>
-              <div onClick={() => setActiveTab('logout')}>
+              <div onClick={handleLogout}>
                 <Card title="Logout" icon={<HiOutlineLogout />} />
               </div>
             </div>
@@ -111,8 +117,8 @@ const Profile = () => {
         )}
         {activeTab === 'orders' && (
           <div>
-            <h2 className="text-2xl font-bold">Orders Content</h2>
-            <p>Here you can view your orders.</p>
+            <h2 className="text-2xl font-bold text-center">Orders</h2>
+            <UserOrders/>
           </div>
         )}
         {activeTab === 'downloads' && (

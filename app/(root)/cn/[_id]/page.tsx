@@ -71,6 +71,7 @@ export default function CheckoutPage() {
         return Math.round(price * conversionRates[currency]); // Convert to Naira and round to nearest whole number
     };
     
+    
     // Fetch preferred currency from localStorage on component mount
     useEffect(() => {
         const savedCurrency = localStorage.getItem('preferredCurrency') as 'USD' | 'NGN';
@@ -227,7 +228,9 @@ export default function CheckoutPage() {
     // Paystack component props
     const paystackProps = {
         email: userInfo.email,
-        amount: convertPriceToNGN(totalPrice) * 100, // Paystack accepts amount in kobo
+        amount: currency === 'USD' 
+        ? convertPriceToNGN(totalPrice) * 100 // Convert to NGN if USD
+        : totalPrice * 100, // Send as is if already in NGN
         publicKey,
         text: 'Pay Now',
         onSuccess: handlePaystackSuccess,

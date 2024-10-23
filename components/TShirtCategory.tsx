@@ -53,7 +53,11 @@ const TShirtCategory = () => {
 
     // Convert price based on the selected currency
     const convertPrice = (priceInUSD: number) => {
-        return (priceInUSD * conversionRates[currency]).toFixed(2); // Convert and round to 2 decimals
+        const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
+        return new Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
+        }).format(parseFloat(convertedPrice));
     };
 
     // Fetch preferred currency from localStorage on component mount
@@ -88,7 +92,7 @@ const TShirtCategory = () => {
                 {randomTShirtItems.length > 0 ? (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     randomTShirtItems.map((item: ProductData) => (
-                        <div key={item._id} className="h-full justify-center mx-auto text-center p-4">
+                        <Link href={`/product/${item.slug.current}`}  key={item._id} className="h-full justify-center mx-auto text-center p-4">
                            
                             <div className="relative bg-gray-100 w-full h-72">
                                 <img
@@ -105,7 +109,7 @@ const TShirtCategory = () => {
                             </div>
                             <Link href={`/product/${item.slug.current}`} className="text-lg font-semibold mt-2">{item.name}</Link>
                             <p className="text-gray-700">from: <span className="font-bold text-red-500">{currency === 'USD' ? '$' : '₦'}{convertPrice(item.price)}</span></p>
-                        </div>
+                        </Link>
                     ))
                 ) : (
                     <p className="text-gray-500">No t-shirts available at the moment.</p>

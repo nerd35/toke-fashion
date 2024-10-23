@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { EliteClothesLanding } from '@/app/(root)/data'; // Adjust the path as necessary
 import Link from 'next/link';
+import { ProductData } from '@/app/api/interface';
+import { getData } from '@/app/api/sanity';
+import { urlFor } from '@/lib/sanity';
 
 // Conversion rates (hardcoded for now, but can be dynamic)
 const conversionRates = {
@@ -12,11 +14,37 @@ const conversionRates = {
 
 const Shop = () => {
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
+  const [products, setProducts] = useState<ProductData[]>([]); // State to store fetched products
+  const [loading, setLoading] = useState(true); // Loading state
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data: ProductData = await getData();
+        console.log('Fetched data:', data);
+        if (Array.isArray(data)) {
+          setProducts(data);
+          console.log('Products after fetching:', data);
+        } else {
+          console.warn('Expected an array for the products, received:', data);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   // Convert price based on the selected currency
   const convertPrice = (priceInUSD: number) => {
-    return (priceInUSD * conversionRates[currency]).toFixed(2); // Convert and round to 2 decimals
-  };
+    const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
+    }).format(parseFloat(convertedPrice));
+};
 
   // Fetch preferred currency from localStorage on component mount
   useEffect(() => {
@@ -40,21 +68,23 @@ const Shop = () => {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
-
+  if (loading) {
+    return <p>Loading products...</p>;
+  }
   return (
     <div className="p-6 mt-24 mb-12">
       <h2 className="text-2xl font-bold mb-4 text-center font-karla">Shop All Items</h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto">
-        {EliteClothesLanding.length > 0 ? (
-          EliteClothesLanding.map(item => (
-            <div key={item.id} className="h-full justify-center mx-auto text-center p-4 ">
-              <img src={item.img} alt={item.name} className="w-full h-54 object-cover rounded" />
+        {products.length > 0 ? (
+          products.map((item: ProductData)=> (
+            <Link href={`/product/${item.slug.current}`} key={item._id} className="h-full justify-center mx-auto text-center p-4 ">
+              <img src={urlFor(item?.img[0]?.asset).url()} alt={item.name} className="w-full h-54 object-cover rounded" />
               <h3 className="text-[18px] font-semibold mt-2">{item.name}</h3>
               <p className="text-gray-700">
                 from: <span className="font-bold text-red-500">{currency === 'USD' ? '$' : '₦'}{convertPrice(item.price)}</span> 
               </p>
-              <Link href={`/item/${item.id}`} className="bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
-            </div>
+              <Link href={`/item/${item._id}`} className="bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
+            </Link>
           ))
         ) : (
           <p className="text-gray-500">No items available at the moment.</p>

@@ -42,7 +42,11 @@ const Pants = () => {
 
     // Convert price based on the selected currency
     const convertPrice = (priceInUSD: number) => {
-        return (priceInUSD * conversionRates[currency]).toFixed(2); // Convert and round to 2 decimals
+        const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
+        return new Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
+        }).format(parseFloat(convertedPrice));
     };
 
     // Fetch preferred currency from localStorage on component mount
@@ -78,13 +82,13 @@ const Pants = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mx-auto gap-6">
                 {pantItems.length > 0 ? (
                     pantItems.map((item: ProductData) => (
-                        <div key={item._id} className="h-full justify-center mx-auto text-center p-4">
+                        <Link href={`/product/${item.slug.current}`}  key={item._id} className="h-full justify-center mx-auto text-center p-4">
                             <img src={urlFor(item?.img[0]?.asset).url()} alt={item.name} className="w-[300px] h-[375px] object-cover rounded" />
                             <Link href={`/product/${item.slug.current}`} className="text-lg font-semibold mt-2">
                                 {item.name}
                             </Link>
                             <p className="text-gray-700">from: <span className="font-bold text-red-500">{currency === 'USD' ? '$' : '₦'}{convertPrice(item.price)}</span></p>
-                        </div>
+                        </Link>
                     ))
                 ) : (
                     <p className="text-gray-500">No pants available at the moment.</p>

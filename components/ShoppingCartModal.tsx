@@ -11,6 +11,7 @@ import { Trash } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CheckoutNow from "./Checkout";
+import Link from "next/link";
 
 const conversionRates = {
     USD: 1,
@@ -40,7 +41,11 @@ function ShoppingCartModal() {
 
     // Convert price based on the selected currency
     const convertPrice = (priceInUSD: number) => {
-        return (priceInUSD * conversionRates[currency]).toFixed(2); // Convert and round to 2 decimals
+        const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
+        return new Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
+        }).format(parseFloat(convertedPrice));
     };
 
     // Fetch preferred currency from localStorage on component mount
@@ -65,6 +70,17 @@ function ShoppingCartModal() {
             window.removeEventListener('storage', handleStorageChange);
         };
     }, []);
+
+    const isUserLoggedIn = () => {
+        if (typeof window !== 'undefined') {
+            // Only runs on the client side
+            const token = localStorage.getItem('token');
+            return !!token; // returns true if token exists
+        }
+        return false; // On the server, we can't check localStorage, so assume not logged in
+    };
+
+    const userDetails = isUserLoggedIn();
 
     return (
         <Sheet open={isCartOpen} onOpenChange={toggleCart}>
@@ -121,7 +137,18 @@ function ShoppingCartModal() {
                     </div>
                     <p className="mt-0.5 text-[11px] text-gray-400">Shipping fee and taxes are calculated at checkout</p>
                     <div className="mt-6">
-                        <CheckoutNow items={items} totalPrice={totalPrice} totalItems={totalItems} />
+                    {userDetails ? (
+                                    <CheckoutNow items={items} totalPrice={totalPrice} totalItems={totalItems} />
+                                ) : (
+                                    <Link href="/account" >
+                                        <span
+                                            className="w-full bg-black text-white py-3 rounded-md hover:bg-gray-700"
+                                        >
+                                            Checkout
+                                        </span>
+                                    </Link>
+                                )}
+                        
                     </div>
                     <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>

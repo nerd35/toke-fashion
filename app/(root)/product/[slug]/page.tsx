@@ -58,7 +58,11 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     };
 
     const convertPrice = (priceInUSD: number) => {
-        return (priceInUSD * conversionRates[currency]).toFixed(2); // Convert and round to 2 decimals
+        const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
+        return new Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
+        }).format(parseFloat(convertedPrice));
     };
 
     // Fetch preferred currency from localStorage on component mount

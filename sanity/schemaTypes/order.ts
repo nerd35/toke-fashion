@@ -53,12 +53,30 @@ export default {
         title: 'Price',
         type: 'number',
       },
+      
+      {
+        name: 'totalAmount',
+        title: 'Total Amount',
+        type: 'number',
+      },
       {
         name: 'orderDetails',
         title: 'Order Details',
         type: 'array',
         of: [{ type: 'orderItem' }], // Reference the 'orderItem' sub-schema here
       },
+
+      {
+        name: 'paymentMethod',
+        title: 'Payment Method',
+        type: 'string',
+        options: {
+            list: [
+                { title: 'Bank Transfer', value: 'bank' },
+                { title: 'Paystack', value: 'paystack' },
+            ],
+        },
+    },
       {
         name: 'status',
         title: 'Order Status',
