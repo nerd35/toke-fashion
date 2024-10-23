@@ -156,27 +156,12 @@ const UserOrders = () => {
                             </div>
                         </div>
 
-                        {/* Order Details */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <p><strong>Item:</strong> {selectedOrder?.itemName}</p>
-                                <p><strong>Start Time:</strong> {new Date(selectedOrder?.startTime).toLocaleString()}</p>
-                            </div>
-                            <div>
-                                <p><strong>Courier:</strong> {selectedOrder?.courier}</p>
-                                <p><strong>Address:</strong> {selectedOrder?.address}</p>
-                            </div>
-                        </div>
+                        
 
-                        {/* Action Buttons */}
-                        <div className="flex mt-6 space-x-4">
-                            <button className="bg-black text-white py-2 px-4 rounded">Export Details</button>
-                            <button className="border border-black py-2 px-4 rounded">Request Confirmation</button>
-                            <button className="text-red-500 border border-red-500 py-2 px-4 rounded">Cancel Order</button>
-                        </div>
+                       
 
                         {/* Order Items List */}
-                        <h4 className="mt-4 font-semibold">Order Items:</h4>
+                        <h4 className="mt-4 font-semibold font-karla text-[16px]">Ordered Items:</h4>
                         <div className="  ml-5 mt-2">
                             {selectedOrder?.orderDetails.map(item => (
                                 <div key={item._id} className='flex items-center gap-4 py-2'>
