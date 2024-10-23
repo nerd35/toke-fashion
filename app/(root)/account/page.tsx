@@ -30,7 +30,9 @@ const router = useRouter()
 
       if (!response.ok) {
         const resError = await response.json();
-        throw new Error(resError.error || 'Login failed');
+        setError(resError.error || 'Login failed');
+        toast.error(resError.error)
+        return; // Stop further execution if there's an error
       }
 
       const { token } = await response.json();

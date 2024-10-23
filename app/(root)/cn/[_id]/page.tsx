@@ -103,7 +103,13 @@ export default function CheckoutPage() {
             setSelectedPayment(paymentMethod); // Expand the clicked accordion
         }
     };
-
+    const convertPrice = (priceInUSD: number) => {
+        const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
+        return new Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
+        }).format(parseFloat(convertedPrice));
+    };
     // State to manage the delivery method
     const [deliveryMethod, setDeliveryMethod] = useState('pickup');
 
@@ -465,7 +471,7 @@ export default function CheckoutPage() {
                         />
                         <div>
                             <h3 className="text-lg font-semibold">{item.name}</h3>
-                            <p className="text-gray-600">Price: ${item.price}</p>
+                            <p className="text-gray-600">Price: ${convertPrice(item.price)}</p>
                             <p className="text-gray-600">Quantity: {item.quantity}</p>
                             <p className="font-semibold">
                                 Total: ${(item.price * item.quantity).toFixed(2)} USD
