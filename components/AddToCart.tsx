@@ -34,7 +34,7 @@ function AddToCart({ color, img, name, price, description, quantity, _id, size }
                 addItem(product);  // Call addItem
                 toggleCart();      // Call toggleCart to change cart visibility
             }}
-            className="w-full bg-gray-500 text-white py-3 rounded-md hover:bg-gray-600"
+            className="w-full mt-3 block text-center bg-gray-500 text-white py-3 rounded-md hover:bg-gray-600"
         >
             Add to cart
         </button>

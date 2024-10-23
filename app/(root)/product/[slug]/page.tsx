@@ -182,7 +182,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
                                 ) : (
                                     <Link href="/account" >
                                         <span
-                                            className="w-full bg-black text-white py-3 rounded-md hover:bg-gray-700"
+                                            className="w-full block text-center mt-3 bg-black text-white py-3 rounded-md hover:bg-gray-700"
                                         >
                                             Checkout
                                         </span>

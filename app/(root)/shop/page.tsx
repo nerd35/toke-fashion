@@ -83,7 +83,7 @@ const Shop = () => {
               <p className="text-gray-700">
                 from: <span className="font-bold text-red-500">{currency === 'USD' ? '$' : '₦'}{convertPrice(item.price)}</span> 
               </p>
-              <Link href={`/item/${item._id}`} className="bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
+              <Link href={`/product/${item.slug.current}`} className="bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
             </Link>
           ))
         ) : (

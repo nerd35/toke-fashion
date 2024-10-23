@@ -30,7 +30,7 @@ function CheckoutNow({ items }: CheckoutNowProps) {
           buyNow(items[0]._id);  // Redirect to checkout for the first item
         }
       }}
-      className="w-full bg-gray-500 text-white py-3 rounded-md hover:bg-gray-600"
+      className="w-full block text-center bg-gray-500 text-white py-3 rounded-md hover:bg-gray-600"
     >
       Checkout Now
     </button>

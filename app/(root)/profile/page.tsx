@@ -60,14 +60,14 @@ const Profile = () => {
   return (
     <>
       {/* Tabs */}
-      <div className="w-full md:mt-36 overflow-x-auto  px-3 md:max-w-6xl justify-center text-center mx-auto">
+      <div className="w-full mt-24 md:mt-36 overflow-x-auto  px-3 md:max-w-6xl justify-center text-center mx-auto">
         <div className="flex space-x-4 p-2 min-w-max">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={clsx(
-                'whitespace-nowrap px-4 py-2 text-lg font-semibold rounded-md',
+                'whitespace-nowrap px-3  text-lg font-semibold rounded-full',
                 activeTab === tab.id
                   ? 'bg-blue-500 text-white'
                   : 'bg-gray-200 text-gray-700'

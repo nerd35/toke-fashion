@@ -82,6 +82,10 @@ function ShoppingCartModal() {
 
     const userDetails = isUserLoggedIn();
 
+    const handleCheckout = () => {
+        toggleCart(); // Close the cart
+    };
+
     return (
         <Sheet open={isCartOpen} onOpenChange={toggleCart}>
             <SheetContent className="md:w-[600px] w-full pb-12 max-h-[100vh] flex flex-col">
@@ -130,32 +134,32 @@ function ShoppingCartModal() {
                     )}
                 </div>
                 {totalItems > 0 &&
-                <div className="px-4 py-4 sm:px-6">
-                    <div className="flex justify-between text-base font-medium font-karla text-gray-800">
-                        <p>Total Price</p>
-                        <p>{currency === 'USD' ? '$' : '₦'} {convertPrice(totalPrice)}</p>
+                    <div className="px-4 py-4 sm:px-6">
+                        <div className="flex justify-between text-base font-medium font-karla text-gray-800">
+                            <p>Total Price</p>
+                            <p>{currency === 'USD' ? '$' : '₦'} {convertPrice(totalPrice)}</p>
+                        </div>
+                        <p className="mt-0.5 text-[11px] text-gray-400">Shipping fee and taxes are calculated at checkout</p>
+                        <div className="mt-6">
+                            {userDetails ? (
+                                <CheckoutNow items={items} totalPrice={totalPrice} totalItems={totalItems} />
+                            ) : (
+                                <Link href="/account" className="w-full" onClick={handleCheckout} >
+                                    <span
+                                        className="w-full text-center block bg-black text-white py-3 rounded-md hover:bg-gray-700"
+                                    >
+                                        Checkout
+                                    </span>
+                                </Link>
+                            )}
+
+                        </div>
+                        <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+                            <p>
+                                OR <button onClick={() => toggleCart()} className="font-medium font-karla text-primary hover:text-primary/50">Continue shopping</button>
+                            </p>
+                        </div>
                     </div>
-                    <p className="mt-0.5 text-[11px] text-gray-400">Shipping fee and taxes are calculated at checkout</p>
-                    <div className="mt-6">
-                    {userDetails ? (
-                                    <CheckoutNow items={items} totalPrice={totalPrice} totalItems={totalItems} />
-                                ) : (
-                                    <Link href="/account" >
-                                        <span
-                                            className="w-full bg-black text-white py-3 rounded-md hover:bg-gray-700"
-                                        >
-                                            Checkout
-                                        </span>
-                                    </Link>
-                                )}
-                        
-                    </div>
-                    <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-                        <p>
-                            OR <button onClick={() => toggleCart()} className="font-medium font-karla text-primary hover:text-primary/50">Continue shopping</button>
-                        </p>
-                    </div>
-                </div>
                 }
             </SheetContent>
         </Sheet>
