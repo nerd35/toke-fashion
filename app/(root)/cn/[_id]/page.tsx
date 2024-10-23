@@ -13,10 +13,16 @@ interface CountryProps {
 
 }
 
+const conversionRates = {
+    USD: 1830, // Example rate for converting USD to NGN
+    NGN: 1, // 1 NGN is 1 NGN
+};
+
 
 export default function CheckoutPage() {
-    const { cartItems, userDetails, getCartDetails, checkoutSingleItem } = useCart(); // Assuming userDetails comes from useCart
-    const { items, totalItems, totalPrice } = getCartDetails();
+    const { cartItems, userDetails, getCartDetails } = useCart(); // Assuming userDetails comes from useCart
+    const {  totalPrice } = getCartDetails();
+    const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD');
     interface OrderDetails {
         userId: string;
         firstname: string;
@@ -53,6 +59,32 @@ export default function CheckoutPage() {
             }
         };
         fetchData();
+    }, []);
+
+    const convertPriceToNGN = (price: number): number => {
+        return Math.round(price * conversionRates[currency]); // Convert to Naira and round to nearest whole number
+    };
+    
+    // Fetch preferred currency from localStorage on component mount
+    useEffect(() => {
+        const savedCurrency = localStorage.getItem('preferredCurrency') as 'USD' | 'NGN';
+        if (savedCurrency) {
+            setCurrency(savedCurrency);
+        }
+    
+        // Event listener for localStorage changes
+        const handleStorageChange = (event: StorageEvent) => {
+            if (event.key === 'preferredCurrency' && event.newValue) {
+                setCurrency(event.newValue as 'USD' | 'NGN');
+            }
+        };
+    
+        // Listen for changes in localStorage
+        window.addEventListener('storage', handleStorageChange);
+    
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, []);
 
     console.log(products)
@@ -116,6 +148,7 @@ export default function CheckoutPage() {
     };
     // Handle successful Paystack payment
     const handlePaystackSuccess = async (reference: any) => {
+        const totalAmountInNGN = convertPriceToNGN(totalPrice);
         // Create order after successful payment
         const orderData: OrderDetails = {
             userId: userDetails?._id,
@@ -128,7 +161,7 @@ export default function CheckoutPage() {
             state: userInfo.state,
             country: userInfo.country,
             paymentMethod: 'paystack',
-            totalAmount: totalPrice,
+            totalAmount: totalAmountInNGN,
             status: 'success',
             orderDetails: cartItems,
         };
@@ -188,7 +221,7 @@ export default function CheckoutPage() {
     // Paystack component props
     const paystackProps = {
         email: userInfo.email,
-        amount: totalPrice * 100, // Paystack accepts amount in kobo
+        amount: convertPriceToNGN(totalPrice) * 100, // Paystack accepts amount in kobo
         publicKey,
         text: 'Pay Now',
         onSuccess: handlePaystackSuccess,
