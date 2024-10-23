@@ -1,6 +1,5 @@
 "use client"
 
-import { Loader2 } from 'lucide-react';
 // pages/login.tsx
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
