@@ -16,9 +16,11 @@ const CreateAccount = () => {
     const [phonenumber, setPhoneNumber] = useState('');
     const [country, setCountry] = useState('');
     const router = useRouter()
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
+        setLoading(true)
         const res = await fetch('/api/register', {
             method: 'POST',
             headers: {
@@ -40,13 +42,15 @@ const CreateAccount = () => {
     
         if (!res.ok) {
             const errorData = await res.text(); // Get the error message as text
-            console.error('Error:', errorData);
+            toast.error(errorData);
+            setLoading(false)
             return; // Exit the function early
         }
         
         await res.json();
         toast.success('User created successfully:');
         router.push("/account")
+        setLoading(false)
         
     };
     
@@ -208,7 +212,7 @@ const CreateAccount = () => {
                         type="submit"
                         className="w-full py-4 bg-gray-900 text-white font-karla text-sm font-medium hover:bg-opacity-90"
                     >
-                        Create Account
+                       { loading ? "Proccessing.....": "Create Account"}
                     </button>
 
                     {/* Divider */}

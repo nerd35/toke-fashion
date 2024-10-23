@@ -58,9 +58,7 @@ const router = useRouter()
     }
   }, [router]);
  
-  if (loading) {
-    return <div className="flex justify-center items-center min-h-screen"><p><Loader2 size={"30px"}/></p></div>; // Loading state
-  }
+  
   return (
     <form onSubmit={handleSubmit} className='flex flex-col md:mt-24 justify-center'>
       <div className="min-h-screen flex flex-col justify-center items-center bg-gray-50">
@@ -104,7 +102,7 @@ const router = useRouter()
             type="submit"
             className="w-full py-4 bg-gray-900 text-white font-karla text-sm font-medium hover:bg-opacity-90"
           >
-           {loading ? "Processing": "Sign In"}
+           {loading ? "Processing...": "Sign In"}
           </button>
         
 
