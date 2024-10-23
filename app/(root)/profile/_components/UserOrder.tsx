@@ -22,7 +22,7 @@ const UserOrders = () => {
                 const fetchedOrders = await displayUserOrders(userDetails?._id);
                 setOrders(fetchedOrders);
             } catch (err) {
-                setError('Failed to fetch orders.');
+                setError(err);
             } finally {
                 setLoading(false);
             }
