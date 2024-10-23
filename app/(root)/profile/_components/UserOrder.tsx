@@ -150,7 +150,7 @@ const UserOrders = () => {
                                     >
                                         {selectedOrder.status}
                                     </div>
-                                    <h3 className="text-xl font-bold">Order #{selectedOrder?._id}</h3>
+                                    <h3 className="text-[14px] font-bold">Order #{shortenOrderId(selectedOrder?._id)}</h3>
                                 </div>
                                 
                             </div>
