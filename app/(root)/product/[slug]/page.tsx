@@ -5,7 +5,7 @@ import { getDataBySlug } from '@/app/api/sanity';
 import AddToCart from '@/components/AddToCart';
 // import Checkout from '@/components/Checkout'; 
 import ImageGallery from '@/components/ImageGallery';
-import { urlFor, urlForMany } from '@/lib/sanity';
+import { urlForMany } from '@/lib/sanity';
 import React, { useState, useEffect } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 
