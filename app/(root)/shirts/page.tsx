@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { ProductData } from '@/app/api/interface';
 import { getData } from '@/app/api/sanity';
 import { urlFor } from '@/lib/sanity';
-import { Loader2 } from 'lucide-react';
 import Loader from '@/components/Loader';
 
 // Conversion rates (hardcoded for now, but can be dynamic)

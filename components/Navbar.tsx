@@ -61,7 +61,6 @@ const Navbar = () => {
 
   // Determine if user details exist (adjust based on your app's logic)
   const userDetails = isUserLoggedIn();
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
 
   return (
