@@ -46,7 +46,8 @@ const handleSubmit = async (e: React.FormEvent) => {
     toast.success('Login successful!');
     router.push('/'); // Redirect after successful login
   } catch (error) {
-    setError('An unexpected error occurred. Please try again.'); // Handle unexpected errors
+    setError('An unexpected error occurred. Please try again.');
+    toast.error(error) // Handle unexpected errors
   } finally {
     setLoading(false);
   }
