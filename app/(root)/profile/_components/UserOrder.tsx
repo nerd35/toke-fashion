@@ -3,6 +3,7 @@ import { displayUserOrders } from '@/app/api/sanity';
 import { useCart } from '@/app/context/CartContext';
 import moment from 'moment'
 import Image from 'next/image';
+import Loader from '@/components/Loader';
 const conversionRates = {
     USD: 1,
     NGN: 1830, // Example rate
@@ -74,7 +75,9 @@ const UserOrders = () => {
         };
       }, []);
 
-    if (loading) return <p>Loading...</p>;
+      if (loading) {
+        return <div><Loader /></div>; // Ensure a loading state is shown
+    }
     if (error) return <p>{error}</p>;
 
     const shortenOrderId = (id) => {

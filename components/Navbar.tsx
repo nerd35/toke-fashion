@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { FaHome, FaShoppingCart, FaUserAlt, FaSearch, FaBars, FaTimes, FaWhatsapp, 
+import {
+  FaHome, FaShoppingCart, FaUserAlt, FaSearch, FaBars, FaTimes, FaWhatsapp,
   // FaWhatsapp 
 } from 'react-icons/fa';
 import Image from 'next/image';
@@ -12,12 +13,14 @@ import { ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD');
   const [loading, setLoading] = useState(false); // Loading state for currency change
   const pathname = usePathname();
-  const { toggleCart, getTotalItems  } = useCart();
+  const { toggleCart, getTotalItems } = useCart();
   const totalItems = getTotalItems();
   const [isCollectionDropdownOpen, setIsCollectionDropdownOpen] = useState(false);
+  const [isMobileCollectionDropdownOpen, setIsMobileCollectionDropdownOpen] = useState(false);
 
   // Toggle drawer visibility
   const toggleDrawer = () => {
@@ -58,6 +61,8 @@ const Navbar = () => {
 
   // Determine if user details exist (adjust based on your app's logic)
   const userDetails = isUserLoggedIn();
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
 
   return (
     <header className="fixed w-full top-0 bg-white z-50 ">
@@ -93,8 +98,9 @@ const Navbar = () => {
           </Link>
           <div className="relative">
             <button onClick={() => setIsCollectionDropdownOpen(!isCollectionDropdownOpen)} className={`text-[15px] font-karla font-[700] flex items-center ${isActive('/collection') ? 'text-blue-500' : 'text-[#2b2b2b]'}`}>
-              <span>Collection</span> <ChevronDown className='ms-1 text-[8px]'/>
+              <span>Collection</span> <ChevronDown className='ms-1 text-[8px]' />
             </button>
+            
             {isCollectionDropdownOpen && (
               <div className="absolute z-10 bg-white w-[200px] py-2 shadow-2xl rounded mt-2">
                 <Link href="/collection/tebc">
@@ -147,19 +153,19 @@ const Navbar = () => {
                 </span>
               </Link>
             )}
-             <div onClick={() => toggleCart()} className="relative">
-          <span
-            className={`flex gap-1 font-karla items-center text-sm ${isActive('/cart') ? 'text-blue-500' : 'text-gray-700'}`}
-          >
-            Cart
-            <FaShoppingCart className="text-md" />
-            {totalItems > 0 && (
-              <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-1 flex items-center justify-center">
-                {totalItems}
+            <div onClick={() => toggleCart()} className="relative">
+              <span
+                className={`flex gap-1 font-karla items-center text-sm ${isActive('/cart') ? 'text-blue-500' : 'text-gray-700'}`}
+              >
+                Cart
+                <FaShoppingCart className="text-md" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-1 flex items-center justify-center">
+                    {totalItems}
+                  </span>
+                )}
               </span>
-            )}
-          </span>
-        </div>
+            </div>
           </div>
 
           <div className="md:hidden" onClick={toggleDrawer}>
@@ -170,47 +176,81 @@ const Navbar = () => {
 
       {/* Drawer (Side Sheet) */}
       <div
+        className={`fixed top-0 left-0 w-72 h-full bg-white shadow-lg z-40 transition-transform transform ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+      >
+        <nav className="flex justify-between items-center   px-6 py-3">
+        
+        
+
+        {/* Hamburger Menu */}
+        <button onClick={toggleDrawer} className="text-xl md:hidden">
+          {isDrawerOpen ? <FaTimes /> : <FaBars />}
+        </button>
+      </nav>
+
+      {/* Drawer */}
+      <div
         className={`fixed top-0 left-0 w-72 h-full bg-white shadow-lg z-40 transition-transform transform ${
-          isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
+          isDrawerOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="flex flex-col p-6 space-y-4">
+          {/* Close Icon */}
+          <button onClick={toggleDrawer} className="text-xl self-end">
+            <FaTimes />
+          </button>
           <Link href="/">
-            <Image src="/cloths/toke-logo1.png" alt="logo" width={154} height={64} />
+          <Image src="/cloths/toke-logo1.png" alt="logo" width={250} height={64} />
+        </Link>
+          
+
+          <Link onClick={toggleDrawer} href="/shop" className="text-[15px] border-t  py-2 font-karla font-[700] text-[#474747]">
+            Shop
           </Link>
-          <Link href="/">
-            <span onClick={toggleDrawer} className={`text-xl font-semibold cursor-pointer ${isActive('/') ? 'text-blue-500' : 'text-gray-700'}`}>
-              Home
-            </span>
+
+          <Link href="/new-arrivals" onClick={toggleDrawer} className="text-[15px] border-t border-b py-3 font-karla font-[700] text-[#474747]">
+            New Arrivals
           </Link>
-          <Link href="/shop">
-            <span onClick={toggleDrawer} className={`text-xl font-semibold cursor-pointer ${isActive('/shop') ? 'text-blue-500' : 'text-gray-700'}`}>
-              Shop
-            </span>
+
+          <Link href="/men" onClick={toggleDrawer} className="text-[15px]  border-b py-2 font-karla font-[700] text-[#474747]">
+            Men
           </Link>
-          <div onClick={() => toggleCart()}>
-            <span onClick={toggleDrawer} className={`text-xl font-semibold cursor-pointer ${isActive('/cart') ? 'text-blue-500' : 'text-gray-700'}`}>
-              Cart
-            </span>
-          </div>
-          {userDetails ? (
-            <Link href="/profile">
-              <span onClick={toggleDrawer} className={`text-xl font-semibold cursor-pointer ${isActive('/profile') ? 'text-blue-500' : 'text-gray-700'}`}>
-                Profile
-              </span>
-            </Link>
-          ) : (
-            <Link href="/account">
-              <span onClick={toggleDrawer} className={`text-xl font-semibold cursor-pointer ${isActive('/account') ? 'text-blue-500' : 'text-gray-700'}`}>
-                Account
-              </span>
-            </Link>
-          )}
+
+          <Link href="/women" onClick={toggleDrawer} className="text-[15px]  border-b py-2 font-karla font-[700] text-[#474747]">
+            Women
+          </Link>
+         
+
+          <button onClick={() => setIsMobileCollectionDropdownOpen(!isMobileCollectionDropdownOpen)} className="flex justify-between items-center text-[15px] font-karla font-[700] text-[#2b2b2b]">
+            Collections <ChevronDown className="text-sm" />
+          </button>
+          {isMobileCollectionDropdownOpen && (
+              <div className="">
+                <Link href="/collection/tebc" onClick={toggleDrawer}>
+                  <span className="text-[15px] block w-full pt-2 font-karla font-[700] border-t text-[#2b2b2b]">TEBC</span>
+                </Link>
+                {/* <Link href="/collection/Accessories">
+                  <span className="block px-4 py-2 text-gray-700 hover:bg-blue-500 hover:text-white">Other Collection</span>
+                </Link> */}
+                {/* Add more links as needed */}
+              </div>
+            )}
+          <Link href="/account" onClick={toggleDrawer} className="text-[15px] border-t border-b py-3 font-karla font-[700] text-[#474747]">
+            Log In/Create Account
+          </Link>
+
+          {/* <button onClick={toggleCart} className=" flex justify-between items-center mt-36 space-x-2">
+          <span className="text-[15px] font-karla font-[700] text-[#2b2b2b]">CART {totalItems}</span>
+          <FaShoppingCart className="text-lg" />
+        </button> */}
+          
         </div>
       </div>
-          <div className='fixed bottom-[80px] z-50 right-2'>
-            <Link href="https://wa.me/message/SUPMHAZ6QTFZL1" target='_blank' ><FaWhatsapp size={40 } className='bg-black p-2 rounded-full text-white'/></Link>
-          </div>
+      </div>
+      <div className='fixed bottom-[80px] z-50 right-2'>
+        <Link href="https://wa.me/message/SUPMHAZ6QTFZL1" target='_blank' ><FaWhatsapp size={40} className='bg-black p-2 rounded-full text-white' /></Link>
+      </div>
       {/* Bottom Mobile Menu */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white flex justify-around py-3 border-t-2 shadow-lg">
         <Link href="/">
@@ -226,16 +266,16 @@ const Navbar = () => {
           </span>
         </Link>
         <div onClick={() => toggleCart()} className="relative">
-  <span className={`flex flex-col font-karla items-center text-sm ${isActive('/cart') ? 'text-blue-500' : 'text-gray-700'}`}>
-    <FaShoppingCart className="text-md" />
-    Cart
-    {totalItems > 0 && (
-      <span className="absolute -top-1 -right-1  bg-red-500 text-white text-xs rounded-full px-1">
-        {totalItems}
-      </span>
-    )}
-  </span>
-</div>
+          <span className={`flex flex-col font-karla items-center text-sm ${isActive('/cart') ? 'text-blue-500' : 'text-gray-700'}`}>
+            <FaShoppingCart className="text-md" />
+            Cart
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1  bg-red-500 text-white text-xs rounded-full px-1">
+                {totalItems}
+              </span>
+            )}
+          </span>
+        </div>
         {userDetails ? (
           <Link href="/profile">
             <span className={`flex flex-col font-karla items-center text-sm ${isActive('/profile') ? 'text-blue-500' : 'text-gray-700'}`}>

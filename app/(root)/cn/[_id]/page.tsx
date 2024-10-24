@@ -27,7 +27,7 @@ interface OrderProps {
 
 export default function CheckoutPage() {
     const { cartItems, userDetails, getCartDetails } = useCart(); // Assuming userDetails comes from useCart
-    const {  totalPrice } = getCartDetails();
+    const { totalPrice } = getCartDetails();
     const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD');
     interface OrderDetails {
         userId: string;
@@ -67,28 +67,26 @@ export default function CheckoutPage() {
         fetchData();
     }, []);
 
-    const convertPriceToNGN = (price: number): number => {
-        return Math.round(price * conversionRates[currency]); // Convert to Naira and round to nearest whole number
-    };
-    
-    
+
+
+
     // Fetch preferred currency from localStorage on component mount
     useEffect(() => {
         const savedCurrency = localStorage.getItem('preferredCurrency') as 'USD' | 'NGN';
         if (savedCurrency) {
             setCurrency(savedCurrency);
         }
-    
+
         // Event listener for localStorage changes
         const handleStorageChange = (event: StorageEvent) => {
             if (event.key === 'preferredCurrency' && event.newValue) {
                 setCurrency(event.newValue as 'USD' | 'NGN');
             }
         };
-    
+
         // Listen for changes in localStorage
         window.addEventListener('storage', handleStorageChange);
-    
+
         return () => {
             window.removeEventListener('storage', handleStorageChange);
         };
@@ -103,6 +101,10 @@ export default function CheckoutPage() {
             setSelectedPayment(paymentMethod); // Expand the clicked accordion
         }
     };
+    const convertPriceToNGN = (price: number): number => {
+        return Math.round(price * conversionRates[currency]); // Convert to Naira and round
+    };
+    
     const convertPrice = (priceInUSD: number) => {
         const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
         
@@ -235,14 +237,27 @@ export default function CheckoutPage() {
     // Paystack component props
     const paystackProps = {
         email: userInfo.email,
-        amount: currency === 'USD' 
-        ? convertPriceToNGN(totalPrice) * 100 // Convert to NGN if USD
-        : totalPrice * 100, // Send as is if already in NGN
+        amount: currency === 'USD'
+            ? convertPriceToNGN(totalPrice) * 100 // Convert to NGN if USD
+            : totalPrice * 100 * 1803, // Send as is if already in NGN
         publicKey,
         text: 'Pay Now',
         onSuccess: handlePaystackSuccess,
         onClose: handlePaystackClose,
     };
+    const subtotalInCurrency = cartItems.reduce((acc, item) => {
+        let itemPriceInSelectedCurrency;
+    
+        // Convert item price based on selected currency
+        if (currency === 'USD') {
+            itemPriceInSelectedCurrency = item.price * conversionRates.USD; // Convert price to NGN
+        } else {
+            itemPriceInSelectedCurrency = item.price * 1805; // Price is already in NGN
+        }
+    
+        // Calculate the total for this item based on quantity
+        return acc + (itemPriceInSelectedCurrency * item.quantity);
+    }, 0);
 
 
     return (
@@ -265,7 +280,7 @@ export default function CheckoutPage() {
                                 required
                             />
                         </label>
-                        
+
                     </div>
 
                     {/* Delivery Method */}
@@ -281,7 +296,7 @@ export default function CheckoutPage() {
                             />
                             <span>Ship</span>
                         </label>
-                        
+
                     </div>
 
                     {/* Store Locations */}
@@ -398,27 +413,42 @@ export default function CheckoutPage() {
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex flex-col w-full">
                             <label htmlFor="firstName" className="text-sm mb-2">First name</label>
-                            <input type="text" id="firstName" placeholder="First name" className="p-4 border border-gray-300 rounded-md" />
+                            <input value={userInfo?.firstname}
+                                onChange={(e) =>
+                                    setUserInfo({ ...userInfo, firstname: e.target.value })
+                                } type="text" id="firstName" placeholder="First name" className="p-4 border border-gray-300 rounded-md" />
                         </div>
                         <div className="flex flex-col w-full">
-                            <label htmlFor="lastName" className="text-sm mb-2">Last name</label>
-                            <input type="text" id="lastName" placeholder="Last name" className="p-4 border border-gray-300 rounded-md" />
+                            <label  htmlFor="lastName" className="text-sm mb-2">Last name</label>
+                            <input value={userInfo?.lastname}
+                                onChange={(e) =>
+                                    setUserInfo({ ...userInfo, lastname: e.target.value })
+                                } type="text" id="lastName" placeholder="Last name" className="p-4 border border-gray-300 rounded-md" />
                         </div>
                     </div>
 
                     <div className="flex flex-col">
                         <label htmlFor="address" className="text-sm mb-2">Address</label>
-                        <input type="text" id="address" placeholder="Address" className="p-4 border border-gray-300 rounded-md" />
+                        <input value={userInfo?.address}
+                                onChange={(e) =>
+                                    setUserInfo({ ...userInfo, address: e.target.value })
+                                } type="text" id="address" placeholder="Address" className="p-4 border border-gray-300 rounded-md" />
                     </div>
 
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex flex-col w-full">
                             <label htmlFor="city" className="text-sm mb-2">City</label>
-                            <input type="text" id="city" placeholder="City" className="p-4 border border-gray-300 rounded-md" />
+                            <input value={userInfo?.city}
+                                onChange={(e) =>
+                                    setUserInfo({ ...userInfo, city: e.target.value })
+                                } type="text" id="city" placeholder="City" className="p-4 border border-gray-300 rounded-md" />
                         </div>
                         <div className="flex flex-col w-full">
                             <label htmlFor="state" className="text-sm mb-2">State</label>
-                            <select id="state" className="p-4 border border-gray-300 rounded-md">
+                            <select value={userInfo?.state}
+                                onChange={(e) =>
+                                    setUserInfo({ ...userInfo, state: e.target.value })
+                                } id="state" className="p-4 border border-gray-300 rounded-md">
                                 <option value="Lagos">Lagos</option>
                                 {/* Add more states */}
                             </select>
@@ -428,7 +458,10 @@ export default function CheckoutPage() {
 
                     <div className="flex flex-col">
                         <label htmlFor="phone" className="text-sm mb-2">Phone (optional)</label>
-                        <input type="text" id="phone" placeholder="Phone (optional)" className="p-3 border border-gray-300 rounded-md" />
+                        <input value={userInfo?.phone}
+                                onChange={(e) =>
+                                    setUserInfo({ ...userInfo, phone: e.target.value })
+                                } type="text" id="phone" placeholder="Phone (optional)" className="p-3 border border-gray-300 rounded-md" />
                     </div>
                     {/* Submit Button */}
                     {selectedPayment === 'paystack' && (
@@ -466,7 +499,7 @@ export default function CheckoutPage() {
                             <p className="text-gray-600">Price: {convertPrice(item.price)}</p>
                             <p className="text-gray-600">Quantity: {item.quantity}</p>
                             <p className="font-semibold">
-                                Total: ${(item.price * item.quantity).toFixed(2)} 
+                                Total: ${(item.price * item.quantity).toFixed(2)}
                             </p>
                         </div>
                     </div>
@@ -474,16 +507,13 @@ export default function CheckoutPage() {
 
                 {/* Subtotal and total calculation */}
                 <div className="border-t pt-4 mt-4">
-                    <p>
-                        Subtotal: $
-                        {cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)} USD
-                    </p>
-                    <p>Pickup: Free</p>
-                    <p className="font-semibold text-lg">
-                        Total: $
-                        {cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)} USD
-                    </p>
-                </div>
+        <p>
+            Subtotal: {currency === 'USD' ? `$${(subtotalInCurrency / conversionRates.USD).toFixed(2)}` : `₦${subtotalInCurrency.toLocaleString()}`}
+        </p>
+        <p className="font-semibold text-lg">
+            Total: {currency === 'USD' ? `$${(subtotalInCurrency / conversionRates.USD).toFixed(2)}` : `₦${subtotalInCurrency.toLocaleString()}`}
+        </p>
+    </div>
             </div>
         </div>
     );

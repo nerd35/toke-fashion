@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ProductData } from '@/app/api/interface';
 import { getData } from '@/app/api/sanity';
 import { urlFor } from '@/lib/sanity';
+import Loader from '@/components/Loader';
 
 // Conversion rates (hardcoded for now, but can be dynamic)
 const conversionRates = {
@@ -70,8 +71,8 @@ const Shop = () => {
     };
   }, []);
   if (loading) {
-    return <p>Loading products...</p>;
-  }
+    return <div><Loader /></div>; // Ensure a loading state is shown
+}
   return (
     <div className="p-6 mt-24 mb-12">
       <h2 className="text-2xl font-bold mb-4 text-center font-karla">Shop All Items</h2>

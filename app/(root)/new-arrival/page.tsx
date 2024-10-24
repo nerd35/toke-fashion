@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { getData } from '@/app/api/sanity';
 import { urlFor } from '@/lib/sanity';
 import { ProductData } from '@/app/api/interface';
+import Loader from '@/components/Loader';
 
 // Conversion rates (hardcoded for now, but can be dynamic)
 const conversionRates = {
@@ -79,8 +80,8 @@ console.log("Dataset:", process.env.NEXT_PUBLIC_DATASET);
   }, []);
 
   if (loading) {
-    return <p>Loading products...</p>;
-  }
+    return <div><Loader /></div>; // Ensure a loading state is shown
+}
 
   return (
     <div className="p-6 mt-36 mb-12">

@@ -7,6 +7,7 @@ import AddToCart from '@/components/AddToCart';
 import BuyNow from '@/components/BuyNow';
 // import Checkout from '@/components/Checkout'; 
 import ImageGallery from '@/components/ImageGallery';
+import Loader from '@/components/Loader';
 import { urlForMany } from '@/lib/sanity';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
@@ -90,7 +91,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     }, []);
 
     if (loading) {
-        return <p>Loading products...</p>; // Ensure a loading state is shown
+        return <div><Loader /></div>; // Ensure a loading state is shown
     }
 
     if (!data) {
