@@ -13,7 +13,6 @@ import { ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD');
   const [loading, setLoading] = useState(false); // Loading state for currency change
   const pathname = usePathname();
