@@ -53,6 +53,7 @@ export default {
             { title: 'Must Have', value: 'must-have' },
             { title: 'Pants', value: 'pant' },
             { title: 'Jacket', value: 'jacket' },
+            { title: 'TEBC', value: 'tebc' },
           ],
         },
       },

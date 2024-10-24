@@ -42,7 +42,7 @@ console.log("Dataset:", process.env.NEXT_PUBLIC_DATASET);
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const newItems = products?.filter((item: ProductData) => item.newArrival === "Yes");
+  const newItems = products?.filter((item: ProductData) => item.category === "tebc");
 
 
 

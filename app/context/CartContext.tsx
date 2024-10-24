@@ -69,7 +69,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         const fetchUserDetails = async () => {
             try {
                 // Replace with the actual user ID you want to fetch
-                const userId = '8RzK8YEYmgGJZM7UREggPA'; // Example user ID
+                const userId = localStorage.getItem('userId'); // Example user ID
                 const query = `*[_type == "user" && _id == $userId][0]{
                     _id,
                     firstname,

@@ -8,13 +8,16 @@ import { FaHome, FaShoppingCart, FaUserAlt, FaSearch, FaBars, FaTimes, FaWhatsap
 } from 'react-icons/fa';
 import Image from 'next/image';
 import { useCart } from '@/app/context/CartContext';
+import { ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD');
   const [loading, setLoading] = useState(false); // Loading state for currency change
   const pathname = usePathname();
-  const { toggleCart } = useCart();
+  const { toggleCart, getTotalItems  } = useCart();
+  const totalItems = getTotalItems();
+  const [isCollectionDropdownOpen, setIsCollectionDropdownOpen] = useState(false);
 
   // Toggle drawer visibility
   const toggleDrawer = () => {
@@ -88,13 +91,22 @@ const Navbar = () => {
               Women
             </span>
           </Link>
-          <Link href="/collection">
-            <span
-              className={`text-[15px] font-karla font-[700] ${isActive('/collection') ? 'text-blue-500' : 'text-[#2b2b2b]'}`}
-            >
-              Collection
-            </span>
-          </Link>
+          <div className="relative">
+            <button onClick={() => setIsCollectionDropdownOpen(!isCollectionDropdownOpen)} className={`text-[15px] font-karla font-[700] flex items-center ${isActive('/collection') ? 'text-blue-500' : 'text-[#2b2b2b]'}`}>
+              <span>Collection</span> <ChevronDown className='ms-1 text-[8px]'/>
+            </button>
+            {isCollectionDropdownOpen && (
+              <div className="absolute z-10 bg-white w-[200px] py-2 shadow-2xl rounded mt-2">
+                <Link href="/collection/tebc">
+                  <span className="block px-4 py-2 text-gray-700 hover:bg-blue-500 hover:text-white">TEBC</span>
+                </Link>
+                {/* <Link href="/collection/Accessories">
+                  <span className="block px-4 py-2 text-gray-700 hover:bg-blue-500 hover:text-white">Other Collection</span>
+                </Link> */}
+                {/* Add more links as needed */}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="flex items-center gap-3">
@@ -135,14 +147,19 @@ const Navbar = () => {
                 </span>
               </Link>
             )}
-            <div onClick={() => toggleCart()}>
-              <span
-                className={`flex gap-1 font-karla items-center text-sm ${isActive('/cart') ? 'text-blue-500' : 'text-gray-700'}`}
-              >
-                Cart
-                <FaShoppingCart className="text-md" />
+             <div onClick={() => toggleCart()} className="relative">
+          <span
+            className={`flex gap-1 font-karla items-center text-sm ${isActive('/cart') ? 'text-blue-500' : 'text-gray-700'}`}
+          >
+            Cart
+            <FaShoppingCart className="text-md" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-1 flex items-center justify-center">
+                {totalItems}
               </span>
-            </div>
+            )}
+          </span>
+        </div>
           </div>
 
           <div className="md:hidden" onClick={toggleDrawer}>
@@ -208,12 +225,17 @@ const Navbar = () => {
             Shop
           </span>
         </Link>
-        <div onClick={() => toggleCart()}>
-          <span className={`flex flex-col font-karla items-center text-sm ${isActive('/cart') ? 'text-blue-500' : 'text-gray-700'}`}>
-            <FaShoppingCart className="text-md" />
-            Cart
-          </span>
-        </div>
+        <div onClick={() => toggleCart()} className="relative">
+  <span className={`flex flex-col font-karla items-center text-sm ${isActive('/cart') ? 'text-blue-500' : 'text-gray-700'}`}>
+    <FaShoppingCart className="text-md" />
+    Cart
+    {totalItems > 0 && (
+      <span className="absolute -top-1 -right-1  bg-red-500 text-white text-xs rounded-full px-1">
+        {totalItems}
+      </span>
+    )}
+  </span>
+</div>
         {userDetails ? (
           <Link href="/profile">
             <span className={`flex flex-col font-karla items-center text-sm ${isActive('/profile') ? 'text-blue-500' : 'text-gray-700'}`}>

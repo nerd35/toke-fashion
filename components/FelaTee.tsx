@@ -62,11 +62,12 @@ const FelaTee = () => {
   // Convert price based on the selected currency
   const convertPrice = (priceInUSD: number) => {
     const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
-    }).format(parseFloat(convertedPrice));
-};
+    
+    // Use a simple conditional to determine the symbol
+    const currencySymbol = currency === 'USD' ? '$' : '₦'; // Use '₦' for NGN
+  
+    return `${currencySymbol}${parseFloat(convertedPrice).toLocaleString()}`; // Format with thousands separator
+  };
 
   // Fetch preferred currency from localStorage on component mount
   useEffect(() => {
@@ -97,7 +98,7 @@ const FelaTee = () => {
 
   return (
     <div className="relative">
-      <div className="overflow-x-hidden flex">
+      <div className="overflow-x-auto scroll-width flex">
         <div
           className="flex transition-transform gap-4 py-6"
           style={{ transform: `translateX(-${scrollIndex * (100 / itemsToShow)}%)` }}
@@ -119,7 +120,7 @@ const FelaTee = () => {
                   </span>
                 </div>
                 <Link href={`/product/${item.slug.current}`} className="text-center text-[15px] font-karla text-[#2b2b2b]">{item.name}</Link>
-                <p className='text-red-500 font-bold font-karla text-center'>{currency === 'USD' ? '$' : '₦'}{convertPrice(item.price)}</p>
+                <p className='text-red-500 font-bold font-karla text-center'>{convertPrice(item.price)}</p>
               </Link>
             )
           ))}

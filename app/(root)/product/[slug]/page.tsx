@@ -59,11 +59,12 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 
     const convertPrice = (priceInUSD: number) => {
         const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
-        return new Intl.NumberFormat('en-NG', {
-            style: 'currency',
-            currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
-        }).format(parseFloat(convertedPrice));
-    };
+        
+        // Use a simple conditional to determine the symbol
+        const currencySymbol = currency === 'USD' ? '$' : '₦'; // Use '₦' for NGN
+      
+        return `${currencySymbol}${parseFloat(convertedPrice).toLocaleString()}`; // Format with thousands separator
+      };
 
     // Fetch preferred currency from localStorage on component mount
     useEffect(() => {
@@ -117,7 +118,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
                     <div className="mt-20">
                         <h1 className="font-karla font-bold text-3xl">{data?.name}</h1>
                         <p className="text-gray-700">
-                            <span className="font-bold mt-3 text-lg text-gray-500">{currency === 'USD' ? '$' : '₦'}{convertPrice(data?.price)}</span>
+                            <span className="font-bold mt-3 text-lg text-gray-500">{convertPrice(data?.price)}</span>
                         </p>
 
                         {/* Quantity Selector */}

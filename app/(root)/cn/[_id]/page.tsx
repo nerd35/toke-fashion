@@ -105,11 +105,12 @@ export default function CheckoutPage() {
     };
     const convertPrice = (priceInUSD: number) => {
         const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
-        return new Intl.NumberFormat('en-NG', {
-            style: 'currency',
-            currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
-        }).format(parseFloat(convertedPrice));
-    };
+        
+        // Use a simple conditional to determine the symbol
+        const currencySymbol = currency === 'USD' ? '$' : '₦'; // Use '₦' for NGN
+      
+        return `${currencySymbol}${parseFloat(convertedPrice).toLocaleString()}`; // Format with thousands separator
+      };
     // State to manage the delivery method
     const [deliveryMethod, setDeliveryMethod] = useState('pickup');
 
@@ -280,16 +281,7 @@ export default function CheckoutPage() {
                             />
                             <span>Ship</span>
                         </label>
-                        <label className="block mb-2 flex items-center space-x-3">
-                            <input
-                                type="radio"
-                                value="pickup"
-                                checked={deliveryMethod === 'pickup'}
-                                onChange={(e) => setDeliveryMethod(e.target.value)}
-                                className="w-4 h-4"
-                            />
-                            <span>Pickup in store</span>
-                        </label>
+                        
                     </div>
 
                     {/* Store Locations */}
@@ -471,10 +463,10 @@ export default function CheckoutPage() {
                         />
                         <div>
                             <h3 className="text-lg font-semibold">{item.name}</h3>
-                            <p className="text-gray-600">Price: ${convertPrice(item.price)}</p>
+                            <p className="text-gray-600">Price: {convertPrice(item.price)}</p>
                             <p className="text-gray-600">Quantity: {item.quantity}</p>
                             <p className="font-semibold">
-                                Total: ${(item.price * item.quantity).toFixed(2)} USD
+                                Total: ${(item.price * item.quantity).toFixed(2)} 
                             </p>
                         </div>
                     </div>

@@ -44,14 +44,14 @@ const Pants = () => {
     // Filter items that are in the "t-shirt" category
     const tShirtItems = products?.filter((item: ProductData) => item.category === 'pant')
 
-  // Convert price based on the selected currency
-  const convertPrice = (priceInUSD: number) => {
-    const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
-    }).format(parseFloat(convertedPrice));
-};
+    const convertPrice = (priceInUSD: number) => {
+      const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
+      
+      // Use a simple conditional to determine the symbol
+      const currencySymbol = currency === 'USD' ? '$' : '₦'; // Use '₦' for NGN
+    
+      return `${currencySymbol}${parseFloat(convertedPrice).toLocaleString()}`; // Format with thousands separator
+    };
 
   // Fetch preferred currency from localStorage on component mount
   useEffect(() => {
@@ -91,7 +91,7 @@ const Pants = () => {
               <img src={urlFor(item?.img[0]?.asset).url()} alt={item.name} className="w-full h-54 object-cover rounded" />
               <Link href={`/product/${item.slug.current}`} className="text-[18px] font-semibold mt-2">{item.name}</Link>
               <p className="text-gray-700">
-                from: <span className="font-bold text-red-500">{currency === 'USD' ? '$' : '₦'}{convertPrice(item.price)}</span> 
+                from: <span className="font-bold text-red-500">{convertPrice(item.price)}</span> 
               </p>
               <Link href={`/product/${item.slug.current}`}  className="bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
             </Link>

@@ -14,39 +14,44 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  setError('');
 
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-      if (!response.ok) {
-        const resError = await response.json();
-        setError(resError.error || 'Login failed');
-        toast.error(resError.error)
-        return; // Stop further execution if there's an error
-      }
-
-      const { token } = await response.json();
-      localStorage.setItem('token', token); // Store token in local storage
-
-      
-      toast.success('Login successful!');
-      router.push('/')
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
+    if (!response.ok) {
+      const resError = await response.json();
+      setError(resError.error || 'Login failed');
+      toast.error(resError.error);
+      return; // Stop further execution if there's an error
     }
-  };
+
+    const data = await response.json(); // Get the whole response data
+    const { token, user } = data; // Destructure the token and user (or any other data)
+
+    // Store token and other user info in local storage
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user)); 
+    localStorage.setItem('userId', user._id);// Store user data as a string
+
+    toast.success('Login successful!');
+    router.push('/'); // Redirect after successful login
+  } catch (error) {
+    setError('An unexpected error occurred. Please try again.'); // Handle unexpected errors
+  } finally {
+    setLoading(false);
+  }
+};
+
   useEffect(() => {
     setLoading(true)
     // Check for the token on component mount

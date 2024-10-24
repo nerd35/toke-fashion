@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { displayUserOrders } from '@/app/api/sanity';
 import { useCart } from '@/app/context/CartContext';
 import moment from 'moment'
+import Image from 'next/image';
 const conversionRates = {
     USD: 1,
     NGN: 1830, // Example rate
@@ -43,11 +44,12 @@ const UserOrders = () => {
 
     const convertPrice = (priceInUSD: number) => {
         const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
-        return new Intl.NumberFormat('en-NG', {
-            style: 'currency',
-            currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
-        }).format(parseFloat(convertedPrice));
-    };
+        
+        // Use a simple conditional to determine the symbol
+        const currencySymbol = currency === 'USD' ? '$' : '₦'; // Use '₦' for NGN
+      
+        return `${currencySymbol}${parseFloat(convertedPrice).toLocaleString()}`; // Format with thousands separator
+      };
     
       // Fetch preferred currency from localStorage on component mount
       useEffect(() => {
@@ -82,7 +84,10 @@ const UserOrders = () => {
     return (
         <div className="container mx-auto p-4">
             {orders.length === 0 ? (
-                <p>No orders found.</p>
+                <div className='justify-center items-center text-center flex flex-col mx-auto min-h-80'>
+                    <Image src="/images/order-removebg-preview.png" width={200} height={200} alt='order'/>
+                <p className='text-[18px] font-karla font-semibold'>No orders found.</p>
+                </div>
             ) : (
                 <table className="min-w-full bg-[#f8f9fa] shadow-md py-4">
                     <thead>

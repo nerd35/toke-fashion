@@ -42,11 +42,12 @@ function ShoppingCartModal() {
     // Convert price based on the selected currency
     const convertPrice = (priceInUSD: number) => {
         const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
-        return new Intl.NumberFormat('en-NG', {
-            style: 'currency',
-            currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
-        }).format(parseFloat(convertedPrice));
-    };
+        
+        // Use a simple conditional to determine the symbol
+        const currencySymbol = currency === 'USD' ? '$' : '₦'; // Use '₦' for NGN
+      
+        return `${currencySymbol}${parseFloat(convertedPrice).toLocaleString()}`; // Format with thousands separator
+      };
 
     // Fetch preferred currency from localStorage on component mount
     useEffect(() => {
@@ -123,7 +124,7 @@ function ShoppingCartModal() {
                                                 +
                                             </button>
                                         </div>
-                                        <p className="mt-2 text-lg font-bold">{currency === 'USD' ? '$' : '₦'} {convertPrice(item.price * item.quantity)}</p>
+                                        <p className="mt-2 text-lg font-bold"> {convertPrice(item.price * item.quantity)}</p>
                                     </div>
                                     <button onClick={() => removeItem(item._id)} className="text-red-500">
                                         <Trash />
@@ -137,7 +138,7 @@ function ShoppingCartModal() {
                     <div className="px-4 py-4 sm:px-6">
                         <div className="flex justify-between text-base font-medium font-karla text-gray-800">
                             <p>Total Price</p>
-                            <p>{currency === 'USD' ? '$' : '₦'} {convertPrice(totalPrice)}</p>
+                            <p>{convertPrice(totalPrice)}</p>
                         </div>
                         <p className="mt-0.5 text-[11px] text-gray-400">Shipping fee and taxes are calculated at checkout</p>
                         <div className="mt-6">

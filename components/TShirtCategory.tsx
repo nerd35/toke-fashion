@@ -54,11 +54,12 @@ const TShirtCategory = () => {
     // Convert price based on the selected currency
     const convertPrice = (priceInUSD: number) => {
         const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
-        return new Intl.NumberFormat('en-NG', {
-            style: 'currency',
-            currency: currency === 'USD' ? 'USD' : 'NGN', // Change currency symbol based on selection
-        }).format(parseFloat(convertedPrice));
-    };
+        
+        // Use a simple conditional to determine the symbol
+        const currencySymbol = currency === 'USD' ? '$' : '₦'; // Use '₦' for NGN
+      
+        return `${currencySymbol}${parseFloat(convertedPrice).toLocaleString()}`; // Format with thousands separator
+      };
 
     // Fetch preferred currency from localStorage on component mount
     useEffect(() => {
@@ -108,7 +109,7 @@ const TShirtCategory = () => {
                                 )}
                             </div>
                             <Link href={`/product/${item.slug.current}`} className="text-lg font-semibold mt-2">{item.name}</Link>
-                            <p className="text-gray-700">from: <span className="font-bold text-red-500">{currency === 'USD' ? '$' : '₦'}{convertPrice(item.price)}</span></p>
+                            <p className="text-gray-700">from: <span className="font-bold text-red-500">{convertPrice(item.price)}</span></p>
                         </Link>
                     ))
                 ) : (

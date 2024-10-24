@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || 'your_jwt_secret', { expiresIn: '1h' });
 
     // Return the token as a response
-    return NextResponse.json({ token }, { status: 200 });
+    return NextResponse.json({ token, user }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Error logging in' }, { status: 500 });
