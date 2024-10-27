@@ -106,7 +106,7 @@ const FelaTee = () => {
          
           {newItems?.map((item: ProductData) => ( 
             item.hot === "Yes" && (
-              <Link href={`/product/${item.slug.current}`}  key={item._id} className="flex-shrink-0 px-6 border-gray-50 rounded-md w-64 h-auto relative">
+              <Link href={`/product/${item?.slug?.current}`}  key={item._id} className="flex-shrink-0 px-6 border-gray-50 rounded-md w-64 h-auto relative">
                 <div className="relative w-full h-72">
                   <Image
                     src={urlFor(item?.img[0]?.asset).url()}
@@ -119,7 +119,7 @@ const FelaTee = () => {
                      {item.hot === "Yes" && <p>Hot</p>}
                   </span>
                 </div>
-                <Link href={`/product/${item.slug.current}`} className="text-center text-[15px] font-karla text-[#2b2b2b]">{item.name}</Link>
+                <Link href={`/product/${item?.slug?.current}`} className="text-center text-[15px] font-karla text-[#2b2b2b]">{item.name}</Link>
                 <p className='text-red-500 font-bold font-karla text-center'>{convertPrice(item.price)}</p>
               </Link>
             )

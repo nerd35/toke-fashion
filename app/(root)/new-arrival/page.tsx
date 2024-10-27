@@ -90,7 +90,7 @@ console.log("Dataset:", process.env.NEXT_PUBLIC_DATASET);
         {newItems?.length > 0 ? (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           newItems?.map((item: ProductData) => (
-            <Link href={`/product/${item.slug.current}`}  key={item?._id} className="h-full justify-center mx-auto text-center p-4 ">
+            <Link href={`/product/${item?.slug?.current}`}  key={item?._id} className="h-full justify-center mx-auto text-center p-4 ">
               <div className="relative bg-gray-100 w-full h-72">
                 <img
                   src={urlFor(item?.img[0]?.asset).url()}
@@ -104,11 +104,11 @@ console.log("Dataset:", process.env.NEXT_PUBLIC_DATASET);
                   </span>
                 )}
               </div>
-              <Link href={`/product/${item.slug.current}`} className="text-[18px] font-semibold mt-2">{item?.name}</Link>
+              <Link href={`/product/${item?.slug?.current}`} className="text-[18px] font-semibold mt-2">{item?.name}</Link>
               <p className="text-gray-700">
                 from: <span className="font-bold text-red-500">{convertPrice(item?.price)}</span>
               </p>
-              <Link href={`/product/${item.slug.current}`} className=" bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
+              <Link href={`/product/${item?.slug?.current}`} className=" bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
             </Link>
           ))
         ) : (

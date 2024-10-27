@@ -54,6 +54,7 @@ export default {
             { title: 'Pants', value: 'pant' },
             { title: 'Jacket', value: 'jacket' },
             { title: 'TEBC', value: 'tebc' },
+            { title: 'Accessories', value: 'accessories' },
           ],
         },
       },

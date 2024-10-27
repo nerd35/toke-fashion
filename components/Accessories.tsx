@@ -12,7 +12,7 @@ const conversionRates = {
     NGN: 1830, // Example rate
 };
 
-const TShirtCategory = () => {
+const Accessories = () => {
     const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD'); // Default currency
     const [products, setProducts] = useState<ProductData[]>([]); // State to store fetched products
     const [loading, setLoading] = useState(true); // Loading state
@@ -48,7 +48,7 @@ const TShirtCategory = () => {
 
 
     // Filter items that are in the "t-shirt" category
-    const tShirtItems = products?.filter((item: ProductData) => item.category === 't-shirt');
+    const tShirtItems = products?.filter((item: ProductData) => item.category === 'accessories');
     const randomTShirtItems = shuffleArray(tShirtItems).slice(0, 4);
 
     // Convert price based on the selected currency
@@ -88,7 +88,7 @@ const TShirtCategory = () => {
       }
     return (
         <div className="p-6">
-            <h2 className="text-2xl font-bold mb-4 text-center font-karla">T-Shirts</h2>
+            <h2 className="text-2xl font-bold mb-4 text-center font-karla">Accessories</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mx-auto gap-6">
                 {randomTShirtItems.length > 0 ? (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -113,7 +113,7 @@ const TShirtCategory = () => {
                         </Link>
                     ))
                 ) : (
-                    <p className="text-gray-500">No t-shirts available at the moment.</p>
+                    <p className="text-gray-500">No accessories available at the moment.</p>
                 )}
             </div>
             <div className="text-center">
@@ -127,4 +127,4 @@ const TShirtCategory = () => {
     );
 };
 
-export default TShirtCategory;
+export default Accessories;

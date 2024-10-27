@@ -1,3 +1,4 @@
+import Accessories from "@/components/Accessories";
 import Carousel from "@/components/Carousel";
 import FelaTee from "@/components/FelaTee";
 import NewArrivals from "@/components/NewArrivals";
@@ -37,6 +38,7 @@ export default function Home() {
 
         <TShirtCategory />
         <Pants />
+        <Accessories/>
       </div>
     </div>
   );

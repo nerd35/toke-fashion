@@ -79,13 +79,13 @@ const Shop = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto">
         {products.length > 0 ? (
           products.map((item: ProductData)=> (
-            <Link href={`/product/${item.slug.current}`} key={item._id} className="h-full justify-center mx-auto text-center p-4 ">
+            <Link href={`/product/${item?.slug?.current}`} key={item._id} className="h-full justify-center mx-auto text-center p-4 ">
               <img src={urlFor(item?.img[0]?.asset).url()} alt={item.name} className="w-full h-54 object-cover rounded" />
               <h3 className="text-[18px] font-semibold mt-2">{item.name}</h3>
               <p className="text-gray-700">
                 from: <span className="font-bold text-red-500">{convertPrice(item.price)}</span> 
               </p>
-              <Link href={`/product/${item.slug.current}`} className="bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
+              <Link href={`/product/${item?.slug?.current}`} className="bg-black text-white py-2 px-4 rounded-md mt-2 inline-block">View Details</Link>
             </Link>
           ))
         ) : (

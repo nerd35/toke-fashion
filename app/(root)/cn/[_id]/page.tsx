@@ -6,6 +6,7 @@ import { useCart } from '@/app/context/CartContext';
 import { getCountryData } from '@/app/api/sanity';
 import { toast } from 'sonner';
 import { PaystackButton } from 'react-paystack';
+import Loader from '@/components/Loader';
 
 interface CountryProps {
     code: string
@@ -26,7 +27,7 @@ interface OrderProps {
 
 
 export default function CheckoutPage() {
-    const { cartItems, userDetails, getCartDetails } = useCart(); // Assuming userDetails comes from useCart
+    const { cartItems, userDetails, getCartDetails, clearCart } = useCart(); // Assuming userDetails comes from useCart
     const { totalPrice } = getCartDetails();
     const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD');
     interface OrderDetails {
@@ -47,7 +48,8 @@ export default function CheckoutPage() {
     const router = useRouter();
     const [selectedPayment, setSelectedPayment] = useState<'paystack' | 'bank' | null>('paystack');
     const [products, setProducts] = useState<[]>([]); // State to store fetched products
-    const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_TEST_PUBLIC_KEY;
+    const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -164,6 +166,7 @@ export default function CheckoutPage() {
     };
     // Handle successful Paystack payment
     const handlePaystackSuccess = async () => {
+        setLoading(true)
         const totalAmountInNGN = convertPriceToNGN(totalPrice);
         // Create order after successful payment
         const orderData: OrderDetails = {
@@ -190,7 +193,9 @@ export default function CheckoutPage() {
             });
 
             toast.success('Payment successful! Order created.');
+            clearCart()
             router.push('/paystack/success');
+            setLoading(false)
         } catch (error) {
             console.error('Error creating order:', error);
             toast.error('Error creating order. Please try again.');
@@ -259,7 +264,9 @@ export default function CheckoutPage() {
         return acc + (itemPriceInSelectedCurrency * item.quantity);
     }, 0);
 
-
+    if (loading) {
+        return <div><Loader /></div>; 
+    }
     return (
         <div className="checkout-page grid grid-cols-1 md:grid-cols-2 mt-16 mb-10 gap-6 p-6 h-full">
             {/* Left: Checkout Form */}
