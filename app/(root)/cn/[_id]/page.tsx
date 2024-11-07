@@ -451,7 +451,7 @@ export default function CheckoutPage() {
                                     <span className="font-semibold text-[14px] font-karla">Bitcoin</span>
                                 </label>
                             </div>
-                            {selectedPayment === 'bank' && (
+                            {selectedPayment === 'bitcoin' && (
                                 <div className="accordion-content text-[14px] font-karla bg-gray-100 p-4">
                                     <div className="w-[124.24px] h-[79.09] rounded-md flex justify-center items-center">
                                         <img src="/images/btc.png" alt="Browser" />
