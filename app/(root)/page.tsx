@@ -16,7 +16,7 @@ export default function Home() {
 
       <Carousel />
       <div className="py-12 md:px-6 mb-2 text-center">
-        <h1 className="text-center font-karla text-[27px] font-semibold">ElitesMerch Must Have</h1>
+        <h1 className="text-center font-karla text-[27px] font-semibold">Elitesmerch Must Have</h1>
         <FelaTee />
         <Link href={`/shirts`}>
           <span className="mt-4 inline-block bg-black text-white py-2 px-4 rounded hover:bg-blue-600">

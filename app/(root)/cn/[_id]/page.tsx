@@ -40,13 +40,13 @@ export default function CheckoutPage() {
         city: string;
         state: string;
         country: string;
-        paymentMethod: 'paystack' | 'bank';
+        paymentMethod: 'paystack' | 'bank' | 'bitcoin';
         totalAmount: number;
         status: 'pending' | 'success';
         orderDetails: OrderProps[];
     }
     const router = useRouter();
-    const [selectedPayment, setSelectedPayment] = useState<'paystack' | 'bank' | null>('paystack');
+    const [selectedPayment, setSelectedPayment] = useState<'paystack' | 'bank' | 'bitcoin' | null>('paystack');
     const [products, setProducts] = useState<[]>([]); // State to store fetched products
     const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
     const [loading, setLoading] = useState(false)
@@ -96,7 +96,7 @@ export default function CheckoutPage() {
 
     console.log(products)
 
-    const handleToggle = (paymentMethod: 'paystack' | 'bank') => {
+    const handleToggle = (paymentMethod: 'paystack' | 'bank' | 'bitcoin') => {
         if (selectedPayment === paymentMethod) {
             setSelectedPayment(null); // Collapse the accordion if clicked again
         } else {
@@ -106,15 +106,15 @@ export default function CheckoutPage() {
     const convertPriceToNGN = (price: number): number => {
         return Math.round(price * conversionRates[currency]); // Convert to Naira and round
     };
-    
+
     const convertPrice = (priceInUSD: number) => {
         const convertedPrice = (priceInUSD * conversionRates[currency]).toFixed(2);
-        
+
         // Use a simple conditional to determine the symbol
         const currencySymbol = currency === 'USD' ? '$' : '₦'; // Use '₦' for NGN
-      
+
         return `${currencySymbol}${parseFloat(convertedPrice).toLocaleString()}`; // Format with thousands separator
-      };
+    };
     // State to manage the delivery method
     const [deliveryMethod, setDeliveryMethod] = useState('pickup');
 
@@ -234,7 +234,37 @@ export default function CheckoutPage() {
             toast.error('Error creating order. Please try again.');
         }
     };
+    const handleBitcoinTransfer = async () => {
+        const orderData: OrderDetails = {
+            userId: userDetails?._id,
+            firstname: userInfo.firstname,
+            lastname: userInfo.lastname,
+            email: userInfo.email,
+            phone: userInfo.phone,
+            address: userInfo.address,
+            city: userInfo.city,
+            state: userInfo.state,
+            country: userInfo.country,
+            paymentMethod: 'bitcoin',
+            totalAmount: totalPrice,
+            status: 'pending',
+            orderDetails: cartItems,
+        };
 
+        try {
+            // Create order in Sanity with status 'pending'
+            await fetch('/api/createOrder', {
+                method: 'POST',
+                body: JSON.stringify(orderData),
+            });
+
+            toast.success('Order created. Please complete your bank transfer.');
+            router.push('/confirmation');
+        } catch (error) {
+            console.error('Error creating bank transfer order:', error);
+            toast.error('Error creating order. Please try again.');
+        }
+    };
     useEffect(() => {
         console.log('Selected Payment Method:', selectedPayment);
     }, [selectedPayment]);
@@ -252,20 +282,20 @@ export default function CheckoutPage() {
     };
     const subtotalInCurrency = cartItems.reduce((acc, item) => {
         let itemPriceInSelectedCurrency;
-    
+
         // Convert item price based on selected currency
         if (currency === 'USD') {
             itemPriceInSelectedCurrency = item.price * conversionRates.USD; // Convert price to NGN
         } else {
             itemPriceInSelectedCurrency = item.price * 1805; // Price is already in NGN
         }
-    
+
         // Calculate the total for this item based on quantity
         return acc + (itemPriceInSelectedCurrency * item.quantity);
     }, 0);
 
     if (loading) {
-        return <div><Loader /></div>; 
+        return <div><Loader /></div>;
     }
     return (
         <div className="checkout-page grid grid-cols-1 md:grid-cols-2 mt-16 mb-10 gap-6 p-6 h-full">
@@ -394,10 +424,44 @@ export default function CheckoutPage() {
                                     </p>
                                     <p className='mb-5'>Make a bank transfer in Nigerian Naira (NGN) to the required amount to the following account:</p>
                                     <p className="font-semibold mt-2 mb-5">
-                                        Name: ASHCORP LUXURY PROJECTS LTD<br />
-                                        Account Number: 1234567890
+                                        Name:   OLATOKE ADEYEMI<br />
+                                        Bank: WEMA BANK <br />
+                                        Account Number: 0232663587
                                     </p>
-                                    <p>Kindly contact +234(0) 707 285 5007 with your detailed proof of payment confirmation. Please note that we confirm all payments before processing orders.
+                                    <p>Kindly contact +234(0) 809 052 7647 with your detailed proof of payment confirmation. Please note that we confirm all payments before processing orders.
+                                        <br /><br />
+
+                                        Thank you for your cooperation.</p>
+                                </div>
+                            )}
+                        </div>
+                        <div className="accordion-item border rounded-lg mb-4">
+                            <div
+                                className="accordion-header cursor-pointer p-4 flex justify-between items-center"
+                                onClick={() => handleToggle('bitcoin')}
+                            >
+                                <label className="flex items-center space-x-2 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        value="bitcoin"
+                                        checked={selectedPayment === 'bitcoin'}
+                                        onChange={() => handleToggle('bitcoin')}
+                                        className="w-4 h-4"
+                                    />
+                                    <span className="font-semibold text-[14px] font-karla">Bitcoin</span>
+                                </label>
+                            </div>
+                            {selectedPayment === 'bank' && (
+                                <div className="accordion-content text-[14px] font-karla bg-gray-100 p-4">
+                                    <div className="w-[124.24px] h-[79.09] rounded-md flex justify-center items-center">
+                                        <img src="/images/btc.png" alt="Browser" />
+                                    </div>
+                                    <p className='mb-5'>Make a Payment in BTC to the required amount to the following Wallet address:</p>
+                                    <p className="font-semibold mt-2 mb-5">
+                                        Wallet address: 19A9BSEFtE4hDVjLjY8AQMLaDbatmpxDJf<br />
+
+                                    </p>
+                                    <p>Kindly contact +234(0) 809 052 7647 with your detailed proof of payment confirmation. Please note that we confirm all payments before processing orders.
                                         <br /><br />
 
                                         Thank you for your cooperation.</p>
@@ -426,7 +490,7 @@ export default function CheckoutPage() {
                                 } type="text" id="firstName" placeholder="First name" className="p-4 border border-gray-300 rounded-md" />
                         </div>
                         <div className="flex flex-col w-full">
-                            <label  htmlFor="lastName" className="text-sm mb-2">Last name</label>
+                            <label htmlFor="lastName" className="text-sm mb-2">Last name</label>
                             <input value={userInfo?.lastname}
                                 onChange={(e) =>
                                     setUserInfo({ ...userInfo, lastname: e.target.value })
@@ -437,9 +501,9 @@ export default function CheckoutPage() {
                     <div className="flex flex-col">
                         <label htmlFor="address" className="text-sm mb-2">Address</label>
                         <input value={userInfo?.address}
-                                onChange={(e) =>
-                                    setUserInfo({ ...userInfo, address: e.target.value })
-                                } type="text" id="address" placeholder="Address" className="p-4 border border-gray-300 rounded-md" />
+                            onChange={(e) =>
+                                setUserInfo({ ...userInfo, address: e.target.value })
+                            } type="text" id="address" placeholder="Address" className="p-4 border border-gray-300 rounded-md" />
                     </div>
 
                     <div className="flex flex-col md:flex-row gap-4">
@@ -466,9 +530,9 @@ export default function CheckoutPage() {
                     <div className="flex flex-col">
                         <label htmlFor="phone" className="text-sm mb-2">Phone (optional)</label>
                         <input value={userInfo?.phone}
-                                onChange={(e) =>
-                                    setUserInfo({ ...userInfo, phone: e.target.value })
-                                } type="text" id="phone" placeholder="Phone (optional)" className="p-3 border border-gray-300 rounded-md" />
+                            onChange={(e) =>
+                                setUserInfo({ ...userInfo, phone: e.target.value })
+                            } type="text" id="phone" placeholder="Phone (optional)" className="p-3 border border-gray-300 rounded-md" />
                     </div>
                     {/* Submit Button */}
                     {selectedPayment === 'paystack' && (
@@ -481,6 +545,16 @@ export default function CheckoutPage() {
 
                         <button
                             onClick={handleBankTransfer}
+                            type="submit"
+                            className="w-full bg-black text-white py-4 rounded-md hover:bg-blue-600 mt-6"
+                        >
+                            Place Order
+                        </button>
+                    )}
+                    {selectedPayment === 'bitcoin' && (
+
+                        <button
+                            onClick={handleBitcoinTransfer}
                             type="submit"
                             className="w-full bg-black text-white py-4 rounded-md hover:bg-blue-600 mt-6"
                         >
@@ -514,13 +588,13 @@ export default function CheckoutPage() {
 
                 {/* Subtotal and total calculation */}
                 <div className="border-t pt-4 mt-4">
-        <p>
-            Subtotal: {currency === 'USD' ? `$${(subtotalInCurrency / conversionRates.USD).toFixed(2)}` : `₦${subtotalInCurrency.toLocaleString()}`}
-        </p>
-        <p className="font-semibold text-lg">
-            Total: {currency === 'USD' ? `$${(subtotalInCurrency / conversionRates.USD).toFixed(2)}` : `₦${subtotalInCurrency.toLocaleString()}`}
-        </p>
-    </div>
+                    <p>
+                        Subtotal: {currency === 'USD' ? `$${(subtotalInCurrency / conversionRates.USD).toFixed(2)}` : `₦${subtotalInCurrency.toLocaleString()}`}
+                    </p>
+                    <p className="font-semibold text-lg">
+                        Total: {currency === 'USD' ? `$${(subtotalInCurrency / conversionRates.USD).toFixed(2)}` : `₦${subtotalInCurrency.toLocaleString()}`}
+                    </p>
+                </div>
             </div>
         </div>
     );
