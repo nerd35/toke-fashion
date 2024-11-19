@@ -228,7 +228,7 @@ export default function CheckoutPage() {
             });
 
             toast.success('Order created. Please complete your bank transfer.');
-            router.push('/confirmation');
+            router.push('/paystack/success');
         } catch (error) {
             console.error('Error creating bank transfer order:', error);
             toast.error('Error creating order. Please try again.');
@@ -259,7 +259,7 @@ export default function CheckoutPage() {
             });
 
             toast.success('Order created. Please complete your bank transfer.');
-            router.push('/confirmation');
+            router.push('/paystack/success');
         } catch (error) {
             console.error('Error creating bank transfer order:', error);
             toast.error('Error creating order. Please try again.');
